@@ -1,0 +1,4 @@
+CSC216,Programming Concepts - Java,001,4,sesmith5,MW,1330,1445
+CSC230,C and Software Tools,001,3,dbsturgi,MW,1145,1300
+CSC216,Programming Concepts - Java,601,4,jep,A
+CSC116,Intro to Programming - Java,003,3,spbalik,MW,1250,1440
