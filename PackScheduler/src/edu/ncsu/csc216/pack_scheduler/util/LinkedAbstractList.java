@@ -18,44 +18,49 @@ public class LinkedAbstractList<E> extends AbstractList<E> {
 	private int capacity;
 	/** front */
 	private ListNode front;
-	
+	/** back of the list */
+	private ListNode back;
+
 	/**
 	 * LinkedAbstractList constructor
+	 * 
 	 * @param capacity the capacity input
 	 */
 	public LinkedAbstractList(int capacity) {
-		
+
 		this.front = null;
 		this.size = 0;
+		back = new ListNode(null);
 		setCapacity(capacity);
-	
+
 	}
-	
+
 	/**
 	 * set the capacity
+	 * 
 	 * @param capacity the capacity input
 	 * @throws IllegalArgumentException when capacity is less than 0 or size
 	 */
 	public void setCapacity(int capacity) {
-		
+
 		if (capacity < 0) {
 			throw new IllegalArgumentException();
 		}
-		
+
 		if (capacity < size) {
 			throw new IllegalArgumentException();
 		}
-		
+
 		this.capacity = capacity;
 	}
-	
+
 	/**
 	 * Returns the element at the specified index
 	 * 
 	 * @param index the index of the element to return
 	 * @return the element at the specified index
-	 * @throws IndexOutOfBoundsException if the index is less than 0 or
-	 * 		greater than or equal to the size
+	 * @throws IndexOutOfBoundsException if the index is less than 0 or greater than
+	 *                                   or equal to the size
 	 */
 	@Override
 	public E get(int index) {
@@ -68,64 +73,66 @@ public class LinkedAbstractList<E> extends AbstractList<E> {
 		}
 		return current.data;
 	}
-	
+
 	/**
 	 * set List "index" to "element"
-	 * @param index the index input
+	 * 
+	 * @param index   the index input
 	 * @param element the element input
-	 * @throws NullPointerException when input element is null
-	 * @throws IllegalArgumentException when element is repeat
+	 * @throws NullPointerException      when input element is null
+	 * @throws IllegalArgumentException  when element is repeat
 	 * @throws IndexOutOfBoundsException when index is out of index
 	 */
 	@Override
 	public E set(int index, E element) {
-		
-		if (element ==  null) {
+
+		if (element == null) {
 			throw new NullPointerException();
 		}
-		
+
 		for (int i = 0; i < size(); i++) {
 			if (element.equals(get(i))) {
 				throw new IllegalArgumentException("Element is already in list");
 			}
 		}
-		
+
 		if (index < 0 || index >= size()) {
 			throw new IndexOutOfBoundsException();
 		}
-		
+
 		ListNode current = front;
 		for (int i = 0; i < index; i++) {
 			current = current.next;
 		}
-		
+
 		E replacedElement = current.data;
 		current.data = element;
-		
+
 		return replacedElement;
 	}
-	
+
 	/**
-	 * add Item in the list 
-	 * specify index
+	 * add Item in the list specify index
 	 */
 	@Override
 	public void add(int index, E element) {
-		
+
 		if (size == capacity) {
 			throw new IllegalArgumentException();
 		}
-		
+
 		if (element == null) {
 			throw new NullPointerException();
 		}
-		
+
 		if (index < 0 || index > size()) {
 			throw new IndexOutOfBoundsException();
 		}
-		
+
 		ListNode current = front;
-		
+		if (index == size) {
+			back.data = element;
+		}
 		if (front == null) {
 			front = new ListNode(element);
 		} else {
@@ -135,7 +142,7 @@ public class LinkedAbstractList<E> extends AbstractList<E> {
 				}
 				current = current.next;
 			}
-			
+
 			current = front;
 			if (index == 0) {
 				front = new ListNode(element, current);
@@ -148,21 +155,25 @@ public class LinkedAbstractList<E> extends AbstractList<E> {
 		}
 		size++;
 	}
-	
+
 	/**
-	 * remove item from list
-	 * specify index
-	 * Return the replacement item
-	 * @return the replacement item 
+	 * remove item from list specify index Return the replacement item
+	 * 
+	 * @return the replacement item
 	 */
 	@Override
 	public E remove(int index) {
-		
+
 		if (index < 0 || index >= size()) {
 			throw new IndexOutOfBoundsException();
 		}
-		E replacedElement = null;			
+		E replacedElement = null;
 		ListNode current = front;
+		if (index == size - 1 && size > 1) {
+			back.data = get(index - 1);
+		} else if (size == 1) {
+			back.data = null;
+		}
 		if (index == 0) {
 			replacedElement = front.data;
 			front = front.next;
@@ -176,38 +187,42 @@ public class LinkedAbstractList<E> extends AbstractList<E> {
 		size--;
 		return replacedElement;
 	}
-	
+
 	/**
 	 * return the size
+	 * 
 	 * @return the size
 	 */
 	public int size() {
 		return size;
 	}
-	
+
 	/**
-	 * ListNode Class
-	 * control the Node 
+	 * ListNode Class control the Node
+	 * 
 	 * @author Xuhui Lin
 	 *
 	 */
 	private class ListNode {
-		
+
 		/** data */
-		private E data;	
+		private E data;
 		/** next */
 		private ListNode next;
-		
+
 		/**
 		 * ListNode constructor
+		 * 
 		 * @param data the data input
 		 */
 		public ListNode(E data) {
 			this(data, null);
 		}
+
 		/**
 		 * ListNode constructor
-		 * @param data the data input	
+		 * 
+		 * @param data the data input
 		 * @param next the Node input
 		 */
 		public ListNode(E data, ListNode next) {
