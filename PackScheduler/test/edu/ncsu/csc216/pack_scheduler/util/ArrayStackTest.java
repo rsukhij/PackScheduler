@@ -11,14 +11,14 @@ public class ArrayStackTest {
      */
     @Test
     public void testPush() {
-        ArrayStack<Integer> a = new ArrayStack<Integer>();
+        ArrayStack<String> a = new ArrayStack<String>();
         assertEquals(0, a.size());
-        a.push(1);
+        a.push("a");
         assertEquals(1, a.size());
         a.setCapacity(2);
-        a.push(0);
+        a.push("b");
         try {
-            a.push(0);
+            a.push("c");
             fail();
         } catch(IllegalArgumentException e) {
             assertEquals(2, a.size());
@@ -30,11 +30,11 @@ public class ArrayStackTest {
      */
     @Test
     public void testPop() {
-        ArrayStack<Integer> a = new ArrayStack<Integer>();
+        ArrayStack<String> a = new ArrayStack<String>();
         assertEquals(0, a.size());
-        a.push(1);
+        a.push("a");
         assertEquals(1, a.size());
-        assertEquals(1, a.pop());
+        assertEquals("a", a.pop());
         assertEquals(0, a.size());
     }
 
@@ -43,9 +43,9 @@ public class ArrayStackTest {
      */
     @Test
     public void testIsEmpty() {
-        ArrayStack<Integer> a = new ArrayStack<Integer>();
+        ArrayStack<String> a = new ArrayStack<String>();
         assertTrue(a.isEmpty());
-        a.push(1);
+        a.push("a");
         assertFalse(a.isEmpty());
         a.pop();
         assertTrue(a.isEmpty());
@@ -56,11 +56,11 @@ public class ArrayStackTest {
      */
     @Test
     public void testSize() {
-        ArrayStack<Integer> a = new ArrayStack<Integer>();
+        ArrayStack<String> a = new ArrayStack<String>();
         assertEquals(0, a.size());
-        a.push(0);
+        a.push("a");
         assertEquals(1, a.size());
-        a.push(1);
+        a.push("b");
         assertEquals(2, a.size());
         a.pop();
         assertEquals(1, a.size());
@@ -71,13 +71,13 @@ public class ArrayStackTest {
      */
     @Test
     public void testSetCapacity() {
-        ArrayStack<Integer> a = new ArrayStack<Integer>();
+        ArrayStack<String> a = new ArrayStack<String>();
         a.setCapacity(5);
-        a.push(0);
-        a.push(1);
-        a.push(2);
-        a.push(3);
-        a.push(4);
+        a.push("a");
+        a.push("b");
+        a.push("c");
+        a.push("d");
+        a.push("e");
         try {
             a.setCapacity(4);
             fail();

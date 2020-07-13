@@ -10,15 +10,15 @@ package edu.ncsu.csc216.pack_scheduler.util;
 public class LinkedStack<E> implements Stack<E>{
     /** The stack using LinkedAbstractList */
     private LinkedAbstractList<E> stack;
-    /** The capacity of the stack */
-    private int capacity;
 
+
+    
     /**
-     * Constructor for LinkedStack
+     * Constructor for LinkedStack with custom size and capacity
      */
-    public LinkedStack() {
-        stack = new LinkedAbstractList<E>(10);
-        capacity = 10;
+    public LinkedStack(int capacity) {
+        stack = new LinkedAbstractList<E>(capacity);
+        setCapacity(capacity);
     }
     
     /**
@@ -27,10 +27,7 @@ public class LinkedStack<E> implements Stack<E>{
      * @throws IllegalArgumentExcpetion if element is null or capacity is smaller than the size of stack
      */
     @Override
-    public void push(E element) {
-        if(element == null || capacity <= stack.size()) {
-            throw new IllegalArgumentException();
-        }
+    public void push(E element) throws IllegalArgumentException {
         stack.add(0, element);
     }
 
@@ -74,7 +71,7 @@ public class LinkedStack<E> implements Stack<E>{
         if(capacity < stack.size()) {
             throw new IllegalArgumentException();
         }
-        this.capacity = capacity;
+        stack.setCapacity(capacity);
         
     }
 

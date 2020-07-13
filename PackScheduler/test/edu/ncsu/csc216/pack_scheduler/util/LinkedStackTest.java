@@ -4,20 +4,20 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class LinkedStackTest {
+public class LinkedStackTest<E> {
     /**
      * Test for push() method
      */
     @Test
     public void testPush() {
-        LinkedStack<Integer> a = new LinkedStack<Integer>();
+        LinkedStack<String> a = new LinkedStack<String>(10);
         assertEquals(0, a.size());
-        a.push(1);
+        a.push("a");
         assertEquals(1, a.size());
         a.setCapacity(2);
-        a.push(0);
+        a.push("b");
         try {
-            a.push(0);
+            a.push("c");
             fail();
         } catch(IllegalArgumentException e) {
             assertEquals(2, a.size());
@@ -29,11 +29,11 @@ public class LinkedStackTest {
      */
     @Test
     public void testPop() {
-        LinkedStack<E> a = new LinkedStack<E>();
+        LinkedStack<String> a = new LinkedStack<String>(10);
         assertEquals(0, a.size());
-        a.push(1);
+        a.push("a");
         assertEquals(1, a.size());
-        assertEquals(1, a.pop());
+        assertEquals("a", a.pop());
         assertEquals(0, a.size());
     }
 
@@ -42,9 +42,9 @@ public class LinkedStackTest {
      */
     @Test
     public void testIsEmpty() {
-        LinkedStack<Integer> a = new LinkedStack<Integer>();
+        LinkedStack<String> a = new LinkedStack<String>(10);
         assertTrue(a.isEmpty());
-        a.push(1);
+        a.push("a");
         assertFalse(a.isEmpty());
         a.pop();
         assertTrue(a.isEmpty());
@@ -55,11 +55,11 @@ public class LinkedStackTest {
      */
     @Test
     public void testSize() {
-        LinkedStack<Integer> a = new LinkedStack<Integer>();
+        LinkedStack<String> a = new LinkedStack<String>(10);
         assertEquals(0, a.size());
-        a.push(0);
+        a.push("a");
         assertEquals(1, a.size());
-        a.push(1);
+        a.push("b");
         assertEquals(2, a.size());
         a.pop();
         assertEquals(1, a.size());
@@ -70,13 +70,13 @@ public class LinkedStackTest {
      */
     @Test
     public void testSetCapacity() {
-        LinkedStack<Integer> a = new LinkedStack<Integer>();
+        LinkedStack<String> a = new LinkedStack<String>(10);
         a.setCapacity(5);
-        a.push(0);
-        a.push(0);
-        a.push(0);
-        a.push(0);
-        a.push(0);
+        a.push("a");
+        a.push("b");
+        a.push("c");
+        a.push("d");
+        a.push("e");
         try {
             a.setCapacity(4);
             fail();
