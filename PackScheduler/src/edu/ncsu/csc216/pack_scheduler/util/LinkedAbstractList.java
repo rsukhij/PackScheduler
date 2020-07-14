@@ -7,8 +7,9 @@ import java.util.AbstractList;
  * returned, or changed.
  * 
  * @author Xuhui Lin
+ * @author Rohan Sukhija
  *
- * @param <E> the array type
+ * @param <E> the data type
  */
 public class LinkedAbstractList<E> extends AbstractList<E> {
 
@@ -112,7 +113,14 @@ public class LinkedAbstractList<E> extends AbstractList<E> {
 	}
 
 	/**
-	 * add Item in the list specify index
+	 * Adds the item to the specified index
+	 * 
+	 * @param index   the specified index for the element to be added to
+	 * @param element the element to be added
+	 * @throws IllegalArgumentException  if the capacity is reached
+	 * @throws IllegalArgumentExpeption  if the element is already in the list
+	 * @throws NullPointerException      if the element is null
+	 * @throws IndexOutOfBoundsException if the index is out of bounds
 	 */
 	@Override
 	public void add(int index, E element) {
@@ -130,11 +138,10 @@ public class LinkedAbstractList<E> extends AbstractList<E> {
 		}
 
 		ListNode current = front;
-		if (index == size) {
-			back.data = element;
-		}
+
 		if (front == null) {
 			front = new ListNode(element);
+			back = front;
 		} else {
 			while (current.next != null) {
 				if (current.data.equals(element)) {
@@ -144,8 +151,12 @@ public class LinkedAbstractList<E> extends AbstractList<E> {
 			}
 
 			current = front;
+
 			if (index == 0) {
 				front = new ListNode(element, current);
+			} else if (index == size) {
+				back.next = new ListNode(element);
+				back = back.next;
 			} else {
 				for (int i = 0; i < index - 1; i++) {
 					current = current.next;
@@ -157,9 +168,11 @@ public class LinkedAbstractList<E> extends AbstractList<E> {
 	}
 
 	/**
-	 * remove item from list specify index Return the replacement item
+	 * Removes the element at the specified index and returns the removed element
 	 * 
-	 * @return the replacement item
+	 * @param the index at which the element to removed is
+	 * @return the removed element
+	 * @throws IndexOutOfBoundsException if the index is out of bounds of the list
 	 */
 	@Override
 	public E remove(int index) {
@@ -169,11 +182,6 @@ public class LinkedAbstractList<E> extends AbstractList<E> {
 		}
 		E replacedElement = null;
 		ListNode current = front;
-		if (index == size - 1 && size > 1) {
-			back.data = get(index - 1);
-		} else if (size == 1) {
-			back.data = null;
-		}
 		if (index == 0) {
 			replacedElement = front.data;
 			front = front.next;
@@ -183,7 +191,12 @@ public class LinkedAbstractList<E> extends AbstractList<E> {
 			}
 			replacedElement = current.next.data;
 			current.next = current.next.next;
+			if (index == size() - 1) {
+				replacedElement = back.data;
+				back = current;
+			}
 		}
+
 		size--;
 		return replacedElement;
 	}
