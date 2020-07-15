@@ -66,6 +66,7 @@ public class Student extends User implements Comparable<Student> {
 	 * Sets the max credits a student is allowed to take
 	 * 
 	 * @param maxCredits the maxCredits to set
+	 * @throws IllegalArgumentException if maxCredits is less than 3 or greater than 18
 	 */
 	public void setMaxCredits(int maxCredits) {
 		if (maxCredits < 3 || maxCredits > MAX_CREDITS) {
@@ -77,7 +78,7 @@ public class Student extends User implements Comparable<Student> {
 	/**
 	 * Generates a hashCode that represents the fields of Student and User
 	 * 
-	 * @return the hashCode for course
+	 * @return the hashCode for Student
 	 */
 	@Override
 	public int hashCode() {
@@ -88,7 +89,7 @@ public class Student extends User implements Comparable<Student> {
 	}
 
 	/**
-	 * Compares a given course object for equality to all fields in Student and User
+	 * Compares a given Student object for equality to all fields in Student and User
 	 * 
 	 * @param obj the object to compare
 	 * @return true if the objects are the same on all fields
