@@ -2,9 +2,6 @@ package edu.ncsu.csc216.pack_scheduler.user.schedule;
 
 import edu.ncsu.csc216.pack_scheduler.util.ArrayList;
 
-import java.util.Arrays;
-import java.util.stream.Stream;
-
 import edu.ncsu.csc216.pack_scheduler.course.ConflictException;
 import edu.ncsu.csc216.pack_scheduler.course.Course;
 

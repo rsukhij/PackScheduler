@@ -1,19 +1,17 @@
-/**
- * 
- */
 package edu.ncsu.csc216.pack_scheduler.util;
 
 import java.util.EmptyStackException;
-import java.util.NoSuchElementException;
 
 /**
  * Stack implemented using a linked list. Contains functionality for a generic
  * stack as well as for setting a capacity for the stack
  * 
  * @author Raymond Dong
- * @param E the generic element type
+ * 
+ * @param <E> the generic element type
  */
 public class LinkedStack<E> implements Stack<E> {
+	
 	/** The stack using LinkedAbstractList */
 	private LinkedAbstractList<E> stack;
 

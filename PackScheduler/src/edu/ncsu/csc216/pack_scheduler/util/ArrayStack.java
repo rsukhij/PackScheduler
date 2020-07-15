@@ -4,7 +4,6 @@
 package edu.ncsu.csc216.pack_scheduler.util;
 
 import java.util.EmptyStackException;
-import java.util.NoSuchElementException;
 
 /**
  * Stack implemented using a dynamic array. Contains functionality for a generic

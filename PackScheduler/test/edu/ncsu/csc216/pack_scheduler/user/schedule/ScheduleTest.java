@@ -6,7 +6,6 @@ import org.junit.Test;
 
 import edu.ncsu.csc216.pack_scheduler.course.Course;
 import edu.ncsu.csc216.pack_scheduler.directory.StudentDirectory;
-import edu.ncsu.csc216.pack_scheduler.user.Student;
 
 /**
  * Test case for Schedule
