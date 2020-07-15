@@ -3,6 +3,8 @@
  */
 package edu.ncsu.csc216.pack_scheduler.util;
 
+import java.util.NoSuchElementException;
+
 /**
  * Stack implemented using a linked list. Contains functionality for a generic
  * stack as well as for setting a capacity for the stack
@@ -43,6 +45,9 @@ public class LinkedStack<E> implements Stack<E> {
 	 */
 	@Override
 	public E pop() {
+		if (isEmpty()) {
+			throw new NoSuchElementException("LinkedStack is empty");
+		}
 		return stack.remove(0);
 	}
 

@@ -3,13 +3,15 @@
  */
 package edu.ncsu.csc216.pack_scheduler.util;
 
+import java.util.NoSuchElementException;
+
 /**
  * Stack implemented using a dynamic array. Contains functionality for a generic
  * stack as well as for setting a capacity for the stack
  * 
  * @author Raymond Dong
  *
- * @param E the generic element type
+ * @param <E> the generic element type
  */
 public class ArrayStack<E> implements Stack<E> {
 	/** The stack using an ArrayList */
@@ -49,6 +51,9 @@ public class ArrayStack<E> implements Stack<E> {
 	 */
 	@Override
 	public E pop() {
+		if (isEmpty()) {
+			throw new NoSuchElementException("ArrayStack is empty");
+		}
 		return stack.remove(stack.size() - 1);
 	}
 
