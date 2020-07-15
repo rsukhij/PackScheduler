@@ -4,6 +4,10 @@
 package edu.ncsu.csc216.pack_scheduler.util;
 
 /**
+ * Stack interface for implementing with a list. Elements are added and removed
+ * from the same end of the list.
+ * 
+ * @author Ethan Taylor
  * @author Raymond Dong
  * @param <E>
  *
