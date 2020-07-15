@@ -3,6 +3,7 @@
  */
 package edu.ncsu.csc216.pack_scheduler.util;
 
+import java.util.EmptyStackException;
 import java.util.NoSuchElementException;
 
 /**
@@ -52,7 +53,7 @@ public class ArrayStack<E> implements Stack<E> {
 	@Override
 	public E pop() {
 		if (isEmpty()) {
-			throw new NoSuchElementException("ArrayStack is empty");
+			throw new EmptyStackException();
 		}
 		return stack.remove(stack.size() - 1);
 	}

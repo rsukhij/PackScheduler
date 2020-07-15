@@ -3,6 +3,7 @@
  */
 package edu.ncsu.csc216.pack_scheduler.util;
 
+import java.util.EmptyStackException;
 import java.util.NoSuchElementException;
 
 /**
@@ -46,7 +47,7 @@ public class LinkedStack<E> implements Stack<E> {
 	@Override
 	public E pop() {
 		if (isEmpty()) {
-			throw new NoSuchElementException("LinkedStack is empty");
+			throw new EmptyStackException();
 		}
 		return stack.remove(0);
 	}
