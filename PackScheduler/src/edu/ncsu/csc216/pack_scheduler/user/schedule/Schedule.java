@@ -3,6 +3,7 @@ package edu.ncsu.csc216.pack_scheduler.user.schedule;
 import edu.ncsu.csc216.pack_scheduler.util.ArrayList;
 
 import java.util.Arrays;
+import java.util.stream.Stream;
 
 import edu.ncsu.csc216.pack_scheduler.course.ConflictException;
 import edu.ncsu.csc216.pack_scheduler.course.Course;
@@ -85,11 +86,15 @@ public class Schedule {
 	 * @return String[][] the 2D String array
 	 */
 	public String[][] getScheduledCourses() {
-		String[][] courses = new String[schedule.size()][4];
-		for (int i = 0; i < schedule.size(); i++) {
-			courses[i] = schedule.get(i).getShortDisplayArray();
+		String[][] courses = null;
+		try {
+			courses = new String[schedule.size()][4];
+			for (int i = 0; i < schedule.size(); i++) {
+				courses[i] = schedule.get(i).getShortDisplayArray();
+			}
+		} catch (ArrayIndexOutOfBoundsException e) {
+			System.out.println(e.getMessage() + ": " + schedule.toString());
 		}
-		System.out.println(Arrays.toString(courses));
 		return courses;
 		
 	}
