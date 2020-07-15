@@ -3,7 +3,11 @@ package edu.ncsu.csc216.pack_scheduler.util;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
-
+/**
+ * Test class for the ArrayStack class
+ * @author Raymond Dong
+ *
+ */
 public class ArrayStackTest {
 
     /**

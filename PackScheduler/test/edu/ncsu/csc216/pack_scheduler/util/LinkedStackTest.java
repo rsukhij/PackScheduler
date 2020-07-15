@@ -2,9 +2,17 @@ package edu.ncsu.csc216.pack_scheduler.util;
 
 import static org.junit.Assert.*;
 
+
 import org.junit.Test;
 
+/**
+ * Class to test the LinkedStack class
+ * @author Raymond Dong
+ *
+ * @param <E> the generic element type
+ */
 public class LinkedStackTest<E> {
+	
     /**
      * Test for push() method
      */

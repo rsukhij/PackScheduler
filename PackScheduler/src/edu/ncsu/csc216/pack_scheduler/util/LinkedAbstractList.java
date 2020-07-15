@@ -45,7 +45,7 @@ public class LinkedAbstractList<E> extends AbstractList<E> {
 	public void setCapacity(int capacity) {
 
 		if (capacity < 0) {
-			throw new IllegalArgumentException("Capacity cannot be less than 0");
+			throw new IllegalArgumentException();
 		}
 
 		if (capacity < size) {
@@ -118,7 +118,7 @@ public class LinkedAbstractList<E> extends AbstractList<E> {
 	 * @param index   the specified index for the element to be added to
 	 * @param element the element to be added
 	 * @throws IllegalArgumentException  if the capacity is reached
-	 * @throws IllegalArgumentExpeption  if the element is already in the list
+	 * @throws IllegalArgumentException  if the element is already in the list
 	 * @throws NullPointerException      if the element is null
 	 * @throws IndexOutOfBoundsException if the index is out of bounds
 	 */
@@ -170,7 +170,7 @@ public class LinkedAbstractList<E> extends AbstractList<E> {
 	/**
 	 * Removes the element at the specified index and returns the removed element
 	 * 
-	 * @param the index at which the element to removed is
+	 * @param index at which the element to removed is
 	 * @return the removed element
 	 * @throws IndexOutOfBoundsException if the index is out of bounds of the list
 	 */
@@ -202,7 +202,7 @@ public class LinkedAbstractList<E> extends AbstractList<E> {
 	}
 
 	/**
-	 * return the size
+	 * Returns the size of the list 
 	 * 
 	 * @return the size
 	 */
@@ -211,20 +211,21 @@ public class LinkedAbstractList<E> extends AbstractList<E> {
 	}
 
 	/**
-	 * ListNode Class control the Node
+	 * Class representing a list node that contains
+	 * a generic data field and a next ListNode pointer
 	 * 
 	 * @author Xuhui Lin
 	 *
 	 */
 	private class ListNode {
 
-		/** data */
+		/** the data of the listnode */
 		private E data;
-		/** next */
+		/** the next listnode */
 		private ListNode next;
 
 		/**
-		 * ListNode constructor
+		 * ListNode constructor with a null next pointer
 		 * 
 		 * @param data the data input
 		 */
@@ -233,7 +234,7 @@ public class LinkedAbstractList<E> extends AbstractList<E> {
 		}
 
 		/**
-		 * ListNode constructor
+		 * ListNode constructor with both data and a next pointer
 		 * 
 		 * @param data the data input
 		 * @param next the Node input
