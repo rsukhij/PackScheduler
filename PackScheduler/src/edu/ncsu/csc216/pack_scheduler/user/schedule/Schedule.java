@@ -2,6 +2,8 @@ package edu.ncsu.csc216.pack_scheduler.user.schedule;
 
 import edu.ncsu.csc216.pack_scheduler.util.ArrayList;
 
+import java.util.Arrays;
+
 import edu.ncsu.csc216.pack_scheduler.course.ConflictException;
 import edu.ncsu.csc216.pack_scheduler.course.Course;
 
@@ -87,6 +89,7 @@ public class Schedule {
 		for (int i = 0; i < schedule.size(); i++) {
 			courses[i] = schedule.get(i).getShortDisplayArray();
 		}
+		System.out.println(Arrays.toString(courses));
 		return courses;
 		
 	}

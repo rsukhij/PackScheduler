@@ -109,7 +109,7 @@ public class ScheduleTest {
 	 * Test for {@link edu.ncsu.csc216.pack_scheduler.user.schedule.Schedule#getScheduledCourses()}
 	 */
 	@Test
-	public void testGetScheduledCourses() {
+	public void testGetScheduledCourses() {		
 		final String name = "CSC216";
 		final String section = "005";
 		final String title = "Computer Science";
@@ -117,6 +117,8 @@ public class ScheduleTest {
 		final int seats = 10;
 		
 		Schedule s = new Schedule();
+		assertEquals(0, s.getScheduledCourses().length);
+		
 		Course c = new Course(name, title, section, 4, "oerwijgr", seats, "MW", 1230, 1330);
 		s.addCourseToSchedule(c);
 		
