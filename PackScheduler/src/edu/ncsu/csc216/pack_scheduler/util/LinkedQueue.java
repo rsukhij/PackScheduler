@@ -24,8 +24,8 @@ public class LinkedQueue<E> implements Queue<E> {
 	 * @param capacity the capcity of the list
 	 */
 	public LinkedQueue(int capacity) {
-		setCapacity(capacity);
 		list = new LinkedAbstractList<E>(capacity);
+		setCapacity(capacity);
 	}
 	
 	/**
