@@ -2,8 +2,8 @@
 
 ## Lab 9
 
-### Raymond: Finish Stack implementation - Due 7/13
+### Raymond: Finish FacultyDirectory and update RegistrationManager- Due 7/20
 
-### Ethan: Implement Queue and Waitlist functionality - Due 7/13
+### Ethan: Finish FacultyRecordIO and Faculty - Due 7/20
 
-### Rohan: Optimize LinkedAbstractList - Due 7/13
+### Rohan: Finish LinkedList - Due 7/20
