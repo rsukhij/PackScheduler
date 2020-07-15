@@ -2,6 +2,8 @@ package edu.ncsu.csc216.pack_scheduler.util;
 
 import java.util.NoSuchElementException;
 
+import edu.ncsu.csc216.pack_scheduler.user.Student;
+
 /**
  * LinkedQueue implemnents the Queue interface using the LinkedAbstractList class.
  * 
@@ -14,14 +16,16 @@ public class LinkedQueue<E> implements Queue<E> {
 	/** The encapsulated list of elements */
 	private LinkedAbstractList<E> list;
 	/** The capacity of LinkedQueue */
-	private int capacity;
+	private int capacity = 0;
 	
 	/**
-	 * Constructs LinkedQueue by instantiating list and setting capacity to 10
+	 * Constructs LinkedQueue by instantiating list and setting capacity specified
+	 * 
+	 * @param capacity the capcity of the list
 	 */
-	public LinkedQueue() {
-		list = new LinkedAbstractList<E>(10);
-		capacity = 10;
+	public LinkedQueue(int capacity) {
+		list = new LinkedAbstractList<E>(capacity);
+		setCapacity(capacity);
 	}
 	
 	/**
@@ -90,4 +94,22 @@ public class LinkedQueue<E> implements Queue<E> {
 		this.capacity = capacity;
 	}
 
+	/**
+	 * Returns true if the element is in LinkedQueue
+	 * 
+	 * @param element the element to check if in LinkedQueue
+	 * @return true if the element is in LinkedQueue
+	 */
+	public boolean contains(E element) {
+		E comparator = null;
+		boolean inWaitlist = false;
+		for (int i = 0; i < size(); i++) {
+			comparator = dequeue();
+			enqueue(comparator);
+			if (element.equals(comparator)) {
+				inWaitlist = true;
+			}
+		}
+		return inWaitlist;
+	}
 }

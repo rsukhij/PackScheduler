@@ -18,7 +18,14 @@ public class LinkedQueueTest {
 	 */
 	@Test
 	public void testLinkedQueue() {
-		LinkedQueue<String> q = new LinkedQueue<String>();
+		try {
+			new LinkedQueue<String>(-1);
+			fail("Setting negative capacity should be invalid");
+		} catch (IllegalArgumentException e) {
+			assertEquals("Capacity cannot be less than 0", e.getMessage());
+		}
+		
+		LinkedQueue<String> q = new LinkedQueue<String>(10);
 		assertTrue(q.isEmpty());
 		q.enqueue("apple");
 		q.enqueue("banana");
@@ -44,7 +51,7 @@ public class LinkedQueueTest {
 	 */
 	@Test
 	public void testEnqueue() {
-		LinkedQueue<String> q = new LinkedQueue<String>();
+		LinkedQueue<String> q = new LinkedQueue<String>(10);
 		
 		try {
 			q.enqueue(null);
@@ -85,7 +92,7 @@ public class LinkedQueueTest {
 	 */
 	@Test
 	public void testDequeue() {
-		LinkedQueue<String> q = new LinkedQueue<String>();
+		LinkedQueue<String> q = new LinkedQueue<String>(10);
 		
 		try {
 			q.dequeue();
@@ -120,7 +127,7 @@ public class LinkedQueueTest {
 	 */
 	@Test
 	public void testIsEmpty() {
-		LinkedQueue<String> q = new LinkedQueue<String>();
+		LinkedQueue<String> q = new LinkedQueue<String>(10);
 		
 		assertTrue(q.isEmpty());
 		q.enqueue("apple");
@@ -138,7 +145,7 @@ public class LinkedQueueTest {
 	 */
 	@Test
 	public void testSize() {
-		LinkedQueue<String> q = new LinkedQueue<String>();
+		LinkedQueue<String> q = new LinkedQueue<String>(10);
 		
 		assertEquals(0, q.size());
 		q.enqueue("apple");
@@ -156,7 +163,7 @@ public class LinkedQueueTest {
 	 */
 	@Test
 	public void testSetCapacity() {
-		LinkedQueue<String> q = new LinkedQueue<String>();
+		LinkedQueue<String> q = new LinkedQueue<String>(10);
 		
 		try {
 			q.setCapacity(-1);

@@ -14,14 +14,16 @@ public class ArrayQueue<E> implements Queue<E> {
 	/** The encapsulated list of elements */
 	private ArrayList<E> list;
 	/** The capacity of ArrayQueue */
-	private int capacity;
+	private int capacity = 0;
 	
 	/**
-	 * Constructs ArrayQueue by instantiating list and setting capacity to 10
+	 * Constructs ArrayQueue by instantiating list and setting capacity specified
+	 * 
+	 * @param capacity the capcity of the list
 	 */
-	public ArrayQueue() {
+	public ArrayQueue(int capacity) {
 		list = new ArrayList<E>();
-		capacity = 10;
+		setCapacity(capacity);
 	}
 
 	/**

@@ -18,7 +18,14 @@ public class ArrayQueueTest {
 	 */
 	@Test
 	public void testArrayQueue() {
-		ArrayQueue<String> q = new ArrayQueue<String>();
+		try {
+			new ArrayQueue<String>(-1);
+			fail("Setting negative capacity should be invalid");
+		} catch (IllegalArgumentException e) {
+			assertEquals("Capacity cannot be less than 0", e.getMessage());
+		}
+		
+		ArrayQueue<String> q = new ArrayQueue<String>(10);
 		assertTrue(q.isEmpty());
 		q.enqueue("apple");
 		q.enqueue("banana");
@@ -44,7 +51,7 @@ public class ArrayQueueTest {
 	 */
 	@Test
 	public void testEnqueue() {
-		ArrayQueue<String> q = new ArrayQueue<String>();
+		ArrayQueue<String> q = new ArrayQueue<String>(10);
 		
 		try {
 			q.enqueue(null);
@@ -85,7 +92,7 @@ public class ArrayQueueTest {
 	 */
 	@Test
 	public void testDequeue() {
-		ArrayQueue<String> q = new ArrayQueue<String>();
+		ArrayQueue<String> q = new ArrayQueue<String>(10);
 		
 		try {
 			q.dequeue();
@@ -120,7 +127,7 @@ public class ArrayQueueTest {
 	 */
 	@Test
 	public void testIsEmpty() {
-		ArrayQueue<String> q = new ArrayQueue<String>();
+		ArrayQueue<String> q = new ArrayQueue<String>(10);
 		
 		assertTrue(q.isEmpty());
 		q.enqueue("apple");
@@ -138,7 +145,7 @@ public class ArrayQueueTest {
 	 */
 	@Test
 	public void testSize() {
-		ArrayQueue<String> q = new ArrayQueue<String>();
+		ArrayQueue<String> q = new ArrayQueue<String>(10);
 		
 		assertEquals(0, q.size());
 		q.enqueue("apple");
@@ -156,7 +163,7 @@ public class ArrayQueueTest {
 	 */
 	@Test
 	public void testSetCapacity() {
-		ArrayQueue<String> q = new ArrayQueue<String>();
+		ArrayQueue<String> q = new ArrayQueue<String>(10);
 		
 		try {
 			q.setCapacity(-1);
