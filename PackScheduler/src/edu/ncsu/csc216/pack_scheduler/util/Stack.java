@@ -1,6 +1,3 @@
-/**
- * 
- */
 package edu.ncsu.csc216.pack_scheduler.util;
 
 /**
@@ -9,7 +6,7 @@ package edu.ncsu.csc216.pack_scheduler.util;
  * 
  * @author Ethan Taylor
  * @author Raymond Dong
- * @param <E>
+ * @param <E> the generic type for Stack
  *
  */
 public interface Stack<E> {
