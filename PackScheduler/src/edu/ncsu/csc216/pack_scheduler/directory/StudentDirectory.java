@@ -41,9 +41,10 @@ public class StudentDirectory {
 
 	/**
 	 * Constructs the student directory by reading in student information from the
-	 * given file. Throws an IllegalArgumentException if the file cannot be found.
+	 * given file.
 	 * 
 	 * @param fileName file containing list of students
+	 * @throws IllegalArgumentException if the file cannot be found.
 	 */
 	public void loadStudentsFromFile(String fileName) {
 		try {
@@ -68,6 +69,7 @@ public class StudentDirectory {
 	 * @param repeatPassword student's repeated password
 	 * @param maxCredits     student's max credits.
 	 * @return true if added
+	 * @throws IllegalArgumentException if password and repeatPassword do not match or are null or empty string.
 	 */
 	public boolean addStudent(String firstName, String lastName, String id, String email, String password,
 			String repeatPassword, int maxCredits) {
@@ -145,6 +147,7 @@ public class StudentDirectory {
 	 * Saves all students in the directory to a file.
 	 * 
 	 * @param fileName name of file to save students to.
+	 * @throws IllegalArgumentException if file cannot be saved.
 	 */
 	public void saveStudentDirectory(String fileName) {
 		try {

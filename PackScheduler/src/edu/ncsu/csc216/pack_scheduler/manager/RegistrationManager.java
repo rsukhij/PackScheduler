@@ -10,7 +10,9 @@ import java.util.Properties;
 import edu.ncsu.csc216.pack_scheduler.catalog.CourseCatalog;
 import edu.ncsu.csc216.pack_scheduler.course.Course;
 import edu.ncsu.csc216.pack_scheduler.course.roll.CourseRoll;
+import edu.ncsu.csc216.pack_scheduler.directory.FacultyDirectory;
 import edu.ncsu.csc216.pack_scheduler.directory.StudentDirectory;
+import edu.ncsu.csc216.pack_scheduler.user.Faculty;
 import edu.ncsu.csc216.pack_scheduler.user.Student;
 import edu.ncsu.csc216.pack_scheduler.user.User;
 import edu.ncsu.csc216.pack_scheduler.user.schedule.Schedule;
@@ -30,6 +32,8 @@ public class RegistrationManager {
 	private CourseCatalog courseCatalog;
 	/** The StudentDirectory loaded in or created */
 	private StudentDirectory studentDirectory;
+	/** The FacultyDirecctory loaded in or created */
+	private FacultyDirectory facultyDirectory;
 	/** The Registrar user used to check if the current User is logged in as registrar */
 	private User registrar;
 	/** The current User logged in */
@@ -46,6 +50,7 @@ public class RegistrationManager {
 		createRegistrar();
 		courseCatalog = new CourseCatalog();
 		studentDirectory = new StudentDirectory();
+		facultyDirectory = new FacultyDirectory();
 	}
 	
 	/**
@@ -115,6 +120,15 @@ public class RegistrationManager {
 	public StudentDirectory getStudentDirectory() {
 		return studentDirectory;
 	}
+	
+	/**
+     * Returns the FacultyDirectory object that has been loaded in or created
+     * 
+     * @return the FacultyDirectory
+     */
+    public FacultyDirectory getFacultyDirectory() {
+        return facultyDirectory;
+    }
 
 	/**
 	 * Logs in a user based on the specified credentials (id and password).
@@ -163,6 +177,22 @@ public class RegistrationManager {
 		} catch (NoSuchAlgorithmException e) {
 			throw new IllegalArgumentException();
 		}
+		
+		Faculty f = facultyDirectory.getFacultyById(id);
+        if (f == null) {
+            throw new IllegalArgumentException("User doesn't exist.");
+        }
+        try {
+            MessageDigest digest = MessageDigest.getInstance(HASH_ALGORITHM);
+            digest.update(password.getBytes());
+            String localHashPW = new String(digest.digest());
+            if (f.getPassword().equals(localHashPW)) {
+                currentUser = f;
+                return true;
+            }
+        } catch (NoSuchAlgorithmException e) {
+            throw new IllegalArgumentException();
+        }
 		
 		return false;
 	}

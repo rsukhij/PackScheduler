@@ -58,6 +58,17 @@ public class RegistrationManagerTest {
 		manager.clearData();
 		assertEquals(0, manager.getStudentDirectory().getStudentDirectory().length);
 	}
+	
+	@Test
+    public void testGetFacultyDirectory() {
+        assertEquals(0, manager.getFacultyDirectory().getFacultyDirectory().length);
+        
+        manager.getFacultyDirectory().loadFacultyFromFile("test-files/faculty_records.txt");
+        assertEquals(8, manager.getFacultyDirectory().getFacultyDirectory().length);
+        
+        manager.clearData();
+        assertEquals(0, manager.getFacultyDirectory().getFacultyDirectory().length);
+    }
 
 	/**
 	 * Test method for {@link edu.ncsu.csc216.pack_scheduler.manager.RegistrationManager#login(String, String)}
@@ -83,6 +94,26 @@ public class RegistrationManagerTest {
 		assertFalse(manager.login("lberg", "pw"));
 		
 		manager.logout();
+		
+		try {
+            manager.login("awitt", "pw");
+            fail("If there are no faculty in facultyDirectory, a faculty should not be able to login");
+        } catch (IllegalArgumentException e) {
+            assertEquals("User doesn't exist.", e.getMessage());
+            assertNull(manager.getCurrentUser());
+        }
+        
+        manager.getFacultyDirectory().loadFacultyFromFile("test-files/faculty_records.txt");
+        assertTrue(manager.login("awitt", "pw"));
+        assertNotNull(manager.getCurrentUser());
+        user = manager.getCurrentUser();
+        assertEquals("Ashely", user.getFirstName());
+        assertEquals("Witt", user.getLastName());
+        assertEquals("mollis@Fuscealiquetmagna.net", user.getEmail());
+        
+        assertFalse(manager.login("lberg", "pw"));
+        
+        manager.logout();
 		
 		try {
 			manager.login("maustin", "pw");	
