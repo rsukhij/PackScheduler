@@ -100,6 +100,13 @@ public class FacultyTest {
 		assertEquals("newEmail@ncsu.edu", f.getEmail());
 		
 		try {
+			f.setEmail("e.mail@ncsu.edu");
+			assertEquals("e.mail@ncsu.edu", f.getEmail());
+		} catch (IllegalArgumentException e) {
+			fail("Email with . before @ should be valid");
+		}
+		
+		try {
 			new Faculty("first", "last", "id", null, "pw", 2);
 			fail("Null email should be invalid");
 		} catch (IllegalArgumentException e) {

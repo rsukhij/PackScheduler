@@ -129,7 +129,7 @@ public class StudentRecordIOTest {
 			StudentRecordIO.writeStudentRecords("test-files/actual_student_records.txt",
 					StudentRecordIO.readStudentRecords("test-files/student_records.txt"));
 		} catch (FileNotFoundException e) {
-//			fail("File not found");
+			fail("File not found");
 		} catch (IOException e) {
 			fail("Could not write to file");
 		}
