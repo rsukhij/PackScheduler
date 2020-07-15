@@ -5,6 +5,8 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import edu.ncsu.csc216.pack_scheduler.course.Course;
+import edu.ncsu.csc216.pack_scheduler.directory.StudentDirectory;
+import edu.ncsu.csc216.pack_scheduler.user.Student;
 
 /**
  * Test case for Schedule
@@ -101,6 +103,37 @@ public class ScheduleTest {
 		
 		s.resetSchedule();
 		assertEquals(0, s.getScheduledCourses().length);
+	}
+	
+	/**
+	 * Test for {@link edu.ncsu.csc216.pack_scheduler.user.schedule.Schedule#getScheduledCourses()}
+	 */
+	@Test
+	public void testGetScheduledCourses() {
+		final String name = "CSC216";
+		final String section = "005";
+		final String title = "Computer Science";
+		final String meeting = "MW 12:30PM-1:30PM";
+		final int seats = 10;
+		
+		Schedule s = new Schedule();
+		Course c = new Course(name, title, section, 4, "oerwijgr", seats, "MW", 1230, 1330);
+		s.addCourseToSchedule(c);
+		
+		String[][] courses = s.getScheduledCourses();
+		assertEquals(name, courses[0][0]);
+		assertEquals(section, courses[0][1]);
+		assertEquals(title, courses[0][2]);
+		assertEquals(meeting, courses[0][3]);
+		assertEquals(Integer.toString(seats), courses[0][4]);
+		
+		s.resetSchedule();
+		StudentDirectory students = new StudentDirectory();
+		students.addStudent("Stu1", "Dent", "student1", "student@ncsu.edu", "pw", "pw", 16);
+		students.addStudent("Stu2", "Dent", "student2", "student@ncsu.edu", "pw", "pw", 16);
+		c.getCourseRoll().enroll(students.getStudentById("student2"));
+		s.addCourseToSchedule(c);
+		assertEquals(1, s.getScheduledCourses().length);
 	}
 
 	/**

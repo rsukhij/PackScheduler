@@ -2,8 +2,6 @@ package edu.ncsu.csc216.pack_scheduler.util;
 
 import java.util.NoSuchElementException;
 
-import edu.ncsu.csc216.pack_scheduler.user.Student;
-
 /**
  * LinkedQueue implemnents the Queue interface using the LinkedAbstractList class.
  * 

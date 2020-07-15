@@ -155,9 +155,17 @@ public class CourseRollTest {
 		assertEquals(0, roll.getNumberOnWaitlist());
 		assertEquals(0, roll.getOpenSeats());
 		
-		roll.enroll(students.getStudentById("student"));
+		students.addStudent("Stu1", "Dent", "student1", "student@ncsu.edu", "pw", "pw", 16);
+		students.addStudent("Stu2", "Dent", "student2", "student@ncsu.edu", "pw", "pw", 16);
+		roll.enroll(students.getStudentById("student1"));
+		roll.enroll(students.getStudentById("student2"));
+		assertEquals(2, roll.getNumberOnWaitlist());
+		roll.drop(students.getStudentById("student1"));
 		assertEquals(1, roll.getNumberOnWaitlist());
-		roll.drop(students.getStudentById("student"));
+		roll.enroll(students.getStudentById("student1"));
+		roll.drop(students.getStudentById("student1"));
+		assertEquals(1, roll.getNumberOnWaitlist());
+		roll.drop(students.getStudentById("student2"));
 		assertEquals(0, roll.getNumberOnWaitlist());
 	}
 
@@ -199,12 +207,21 @@ public class CourseRollTest {
 		for (int i = 0; i < students.getStudentDirectory().length; i++) {
 			roll.enroll(students.getStudentById(students.getStudentDirectory()[i][2]));
 		}
+		assertFalse(roll.canEnroll(students.getStudentById(students.getStudentDirectory()[0][2])));
+		
 		students.addStudent("Stu", "Dent", "student", "student@ncsu.edu", "pw", "pw", 16);
 		
 		assertTrue(roll.canEnroll(students.getStudentById("student")));
 		
 		roll.enroll(students.getStudentById("student"));
 		assertFalse(roll.canEnroll(students.getStudentById("student")));
+		
+		for (int i = 0; i < students.getStudentDirectory().length; i++) {
+			roll.drop(students.getStudentById(students.getStudentDirectory()[i][2]));
+		}
+		roll.drop(students.getStudentById("student"));
+		
+		assertTrue(roll.canEnroll(students.getStudentById("student")));
 	}
 
 	/**
