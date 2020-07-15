@@ -11,7 +11,7 @@ public class ArrayStackTest {
      */
     @Test
     public void testPush() {
-        ArrayStack<String> a = new ArrayStack<String>();
+        ArrayStack<String> a = new ArrayStack<String>(10);
         assertEquals(0, a.size());
         a.push("a");
         assertEquals(1, a.size());
@@ -30,7 +30,7 @@ public class ArrayStackTest {
      */
     @Test
     public void testPop() {
-        ArrayStack<String> a = new ArrayStack<String>();
+        ArrayStack<String> a = new ArrayStack<String>(10);
         assertEquals(0, a.size());
         a.push("a");
         assertEquals(1, a.size());
@@ -43,7 +43,7 @@ public class ArrayStackTest {
      */
     @Test
     public void testIsEmpty() {
-        ArrayStack<String> a = new ArrayStack<String>();
+        ArrayStack<String> a = new ArrayStack<String>(10);
         assertTrue(a.isEmpty());
         a.push("a");
         assertFalse(a.isEmpty());
@@ -56,7 +56,7 @@ public class ArrayStackTest {
      */
     @Test
     public void testSize() {
-        ArrayStack<String> a = new ArrayStack<String>();
+        ArrayStack<String> a = new ArrayStack<String>(10);
         assertEquals(0, a.size());
         a.push("a");
         assertEquals(1, a.size());
@@ -71,7 +71,7 @@ public class ArrayStackTest {
      */
     @Test
     public void testSetCapacity() {
-        ArrayStack<String> a = new ArrayStack<String>();
+        ArrayStack<String> a = new ArrayStack<String>(10);
         a.setCapacity(5);
         a.push("a");
         a.push("b");

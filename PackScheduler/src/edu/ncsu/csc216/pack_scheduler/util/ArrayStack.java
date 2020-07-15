@@ -16,9 +16,9 @@ public class ArrayStack<E> implements Stack<E>{
     /**
      * Constructor for ArrayStack
      */
-    public ArrayStack() {
+    public ArrayStack(int capacity) {
         stack = new ArrayList<E>();
-        capacity = 10;
+        setCapacity(capacity);
     }
     
     /**
