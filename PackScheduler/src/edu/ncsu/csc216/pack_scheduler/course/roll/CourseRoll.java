@@ -24,6 +24,8 @@ public class CourseRoll {
 	private static final int MAX_ENROLLMENT = 250;
 	/** The students that will automatically be added to the roll if a student unenrolls */
 	private LinkedQueue<Student> waitlist;
+	/** The Course of CourseRoll */
+	private Course course;
 	
 	/**
 	 * Constructs a CourseRoll by instantiating a LinkedAbstractList and waitlist and setting the
@@ -33,12 +35,22 @@ public class CourseRoll {
 	 * @param enrollmentCap the enrollment cap to set
 	 */
 	public CourseRoll(Course c, int enrollmentCap) {
-		if (c == null) {
-			throw new IllegalArgumentException("Course cannot be null");
-		}
+		setCourse(c);
 		roll = new LinkedAbstractList<Student>(MAX_ENROLLMENT);
 		setEnrollmentCap(enrollmentCap);
 		waitlist = new LinkedQueue<Student>(10);
+	}
+	
+	/**
+	 * Sets CourseRoll's Course
+	 * 
+	 * @param c the Course
+	 */
+	private void setCourse(Course c) {
+		if (c == null) {
+			throw new IllegalArgumentException("Course cannot be null");
+		}
+		course = c;
 	}
 	
 	/**
@@ -85,6 +97,7 @@ public class CourseRoll {
 		} catch (Exception e) {
 			try {
 				waitlist.enqueue(s);
+				s.getSchedule().addCourseToSchedule(course);
 			} catch (IllegalArgumentException iae) {
 				throw new IllegalArgumentException("Waitlist is full");
 			}

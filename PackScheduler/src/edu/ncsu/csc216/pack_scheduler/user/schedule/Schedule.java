@@ -86,14 +86,9 @@ public class Schedule {
 	 * @return String[][] the 2D String array
 	 */
 	public String[][] getScheduledCourses() {
-		String[][] courses = null;
-		try {
-			courses = new String[schedule.size()][4];
-			for (int i = 0; i < schedule.size(); i++) {
-				courses[i] = schedule.get(i).getShortDisplayArray();
-			}
-		} catch (ArrayIndexOutOfBoundsException e) {
-			System.out.println(e.getMessage() + ": " + schedule.toString());
+		String[][] courses = new String[schedule.size()][4];
+		for (int i = 0; i < schedule.size(); i++) {
+			courses[i] = schedule.get(i).getShortDisplayArray();
 		}
 		return courses;
 		

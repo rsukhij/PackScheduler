@@ -160,12 +160,29 @@ public class CourseRollTest {
 		roll.enroll(students.getStudentById("student1"));
 		roll.enroll(students.getStudentById("student2"));
 		assertEquals(2, roll.getNumberOnWaitlist());
-		roll.drop(students.getStudentById("student1"));
+		
+		roll.drop(students.getStudentById(students.getStudentDirectory()[0][2]));
+		assertEquals(0, roll.getOpenSeats());
 		assertEquals(1, roll.getNumberOnWaitlist());
-		roll.enroll(students.getStudentById("student1"));
-		roll.drop(students.getStudentById("student1"));
+		
+		roll.drop(students.getStudentById(students.getStudentDirectory()[1][2]));
+		assertEquals(0, roll.getOpenSeats());
+		assertEquals(0, roll.getNumberOnWaitlist());
+		
+		roll.drop(students.getStudentById(students.getStudentDirectory()[2][2]));
+		assertEquals(1, roll.getOpenSeats());
+		assertEquals(0, roll.getNumberOnWaitlist());
+		
+		roll.enroll(students.getStudentById(students.getStudentDirectory()[0][2]));
+		roll.enroll(students.getStudentById(students.getStudentDirectory()[1][2]));
+		roll.enroll(students.getStudentById(students.getStudentDirectory()[2][2]));
+		roll.drop(students.getStudentById(students.getStudentDirectory()[0][2]));
 		assertEquals(1, roll.getNumberOnWaitlist());
-		roll.drop(students.getStudentById("student2"));
+		roll.enroll(students.getStudentById(students.getStudentDirectory()[0][2]));
+		
+		roll.drop(students.getStudentById(students.getStudentDirectory()[0][2]));
+		assertEquals(1, roll.getNumberOnWaitlist());
+		roll.drop(students.getStudentById(students.getStudentDirectory()[1][2]));
 		assertEquals(0, roll.getNumberOnWaitlist());
 	}
 
