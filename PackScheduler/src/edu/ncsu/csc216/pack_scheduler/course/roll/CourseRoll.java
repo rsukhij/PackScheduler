@@ -80,6 +80,7 @@ public class CourseRoll {
 		} else if (!canEnroll(s)) {
 			throw new IllegalArgumentException("Student can't be enrolled");
 		}
+		System.out.println(String.format("enroll(%s)", s.toString()));
 		try {
 			roll.add(0, s);
 		} catch (Exception e) {
@@ -101,6 +102,7 @@ public class CourseRoll {
 		if (s == null) {
 			throw new IllegalArgumentException("Null student can't be dropped");
 		}
+		System.out.println(String.format("drop(%s)", s.toString()));
 		for (int i = 0; i < roll.size(); i++) {
 			if (s.equals(roll.get(i))) {
 				roll.remove(i);
@@ -143,6 +145,7 @@ public class CourseRoll {
 		if (s == null) {
 			return false;
 		}
+		System.out.println(String.format("canEnroll(%s)", s.toString()));
 		for (int i = 0; i < roll.size(); i++) {
 			if (s.equals(roll.get(i))) {
 				return false;
@@ -164,6 +167,7 @@ public class CourseRoll {
 	 * @return the size of waitlist
 	 */
 	public int getNumberOnWaitlist() {
+		System.out.println("getNumberOnWaitlist()");
 		return waitlist.size();
 	}
 }
