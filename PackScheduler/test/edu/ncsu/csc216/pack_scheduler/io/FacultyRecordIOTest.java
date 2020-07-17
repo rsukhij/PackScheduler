@@ -24,7 +24,7 @@ public class FacultyRecordIOTest {
 	
 	private String validFaculty0 = "Ashely,Witt,awitt,mollis@Fuscealiquetmagna.net,pw,2";
 	private String validFaculty1 = "Fiona,Meadows,fmeadow,pharetra.sed@et.org,pw,3";
-	private String validFaculty2 = "Brent,Brewer,bbrewer,sem.semper@orcism.co.uk,pw,1";
+	private String validFaculty2 = "Brent,Brewer,bbrewer,sem.semper@orcisem.co.uk,pw,1";
 	private String validFaculty3 = "Halla,Aguirre,haguirr,Fusce.dolor.quam@amalesuadaid.net,pw,3";
 	private String validFaculty4 = "Kevyn,Patel,kpatel,risus@pellentesque.ca,pw,1";
 	private String validFaculty5 = "Elton,Briggs,ebriggs,arcu.ac@ipsumsodalespurus.edu,pw,3";
@@ -103,13 +103,7 @@ public class FacultyRecordIOTest {
 		}
 		
 		try {
-			assertEquals(0, FacultyRecordIO.readFacultyRecords("test-files/invalid_faculty_records.txt"));
-		} catch (FileNotFoundException e) {
-			fail("File not found");
-		}
-		
-		try {
-			FacultyRecordIO.readFacultyRecords("test-files/invalid_faculty_record.txt");
+			facultyRecords = FacultyRecordIO.readFacultyRecords("test-files/invalid_faculty_records.txt");
 		} catch (FileNotFoundException e) {
 			fail("File not found");
 		}
