@@ -2,6 +2,8 @@ package edu.ncsu.csc216.pack_scheduler.util;
 
 import java.util.AbstractList;
 
+
+
 /**
  * LinkedAbstractList manages a list of elements of which can be added, removed,
  * returned, or changed.
@@ -161,7 +163,9 @@ public class LinkedAbstractList<E> extends AbstractList<E> {
 				for (int i = 0; i < index - 1; i++) {
 					current = current.next;
 				}
-				current.next = new ListNode(element, current.next);
+				ListNode temp = current.next;
+				current.next = new ListNode(element);
+				current.next.next=temp;
 			}
 		}
 		size++;
