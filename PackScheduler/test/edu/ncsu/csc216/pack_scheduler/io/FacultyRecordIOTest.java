@@ -92,7 +92,7 @@ public class FacultyRecordIOTest {
 	 */
 	@Test
 	public void testReadFacultyRecords() {
-		java.util.LinkedList<Faculty> facultyRecords = null;
+		LinkedList<Faculty> facultyRecords = null;
 		try {
 			facultyRecords = FacultyRecordIO.readFacultyRecords("test-files/faculty_records.txt");
 		} catch (FileNotFoundException e) {
