@@ -123,7 +123,7 @@ public class FacultyRecordIOTest {
 			fail("Could not write to file");
 		}
 
-		checkFiles("test-files/expected_faculty_reocrds.txt", "test-files/actual_faculty_records.txt");
+		checkFiles("test-files/faculty_records.txt", "test-files/actual_faculty_records.txt");
 	}
 
 }
