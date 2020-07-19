@@ -165,7 +165,7 @@ public class LinkedAbstractList<E> extends AbstractList<E> {
 				}
 				ListNode temp = current.next;
 				current.next = new ListNode(element);
-				current.next.next=temp;
+				current.next.next = temp;
 			}
 		}
 		size++;

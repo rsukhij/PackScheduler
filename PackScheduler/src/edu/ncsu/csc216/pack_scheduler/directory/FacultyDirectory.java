@@ -9,9 +9,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import edu.ncsu.csc216.pack_scheduler.io.FacultyRecordIO;
-import edu.ncsu.csc216.pack_scheduler.io.StudentRecordIO;
 import edu.ncsu.csc216.pack_scheduler.user.Faculty;
-import edu.ncsu.csc216.pack_scheduler.user.Student;
 import edu.ncsu.csc216.pack_scheduler.util.LinkedList;
 
 /**

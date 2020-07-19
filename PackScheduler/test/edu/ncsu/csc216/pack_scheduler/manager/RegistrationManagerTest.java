@@ -59,6 +59,9 @@ public class RegistrationManagerTest {
 		assertEquals(0, manager.getStudentDirectory().getStudentDirectory().length);
 	}
 	
+	/**
+	 * Test for getFacultyDirectory() method
+	 */
 	@Test
     public void testGetFacultyDirectory() {
         assertEquals(0, manager.getFacultyDirectory().getFacultyDirectory().length);
