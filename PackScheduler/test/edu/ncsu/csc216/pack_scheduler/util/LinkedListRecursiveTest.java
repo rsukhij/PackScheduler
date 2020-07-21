@@ -4,26 +4,43 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+/**
+ * Test class for RecursiveLinkedList
+ * @author Rohan Sukhija
+ *
+ */
 public class LinkedListRecursiveTest {
-
+	
+	/**
+	 * Test method for constructor
+	 */
 	@Test
 	public void testLinkedListRecursive() {
 		LinkedListRecursive<String> list = new LinkedListRecursive<String>();
 		assertEquals(0, list.size());
 	}
 
+	/**
+	 * Test method for size()
+	 */
 	@Test
 	public void testSize() {
 		LinkedListRecursive<String> list = new LinkedListRecursive<String>();
 		assertEquals(0, list.size());
 	}
 
+	/**
+	 * Test method for isEmpty
+	 */
 	@Test
 	public void testIsEmpty() {
 		LinkedListRecursive<String> list = new LinkedListRecursive<String>();
 		assertTrue(list.isEmpty());
 	}
 
+	/**
+	 * Test method for Contains()
+	 */
 	@Test
 	public void testContains() {
 		LinkedListRecursive<String> list = new LinkedListRecursive<String>();
@@ -38,6 +55,9 @@ public class LinkedListRecursiveTest {
 
 	}
 
+	/**
+	 * Test method for add(E)
+	 */
 	@Test
 	public void testAddE() {
 		LinkedListRecursive<String> list = new LinkedListRecursive<String>();
@@ -52,6 +72,9 @@ public class LinkedListRecursiveTest {
 		}
 	}
 
+	/**
+	 * Test method for remove(E)
+	 */
 	@Test
 	public void testRemoveE() {
 		LinkedListRecursive<String> list = new LinkedListRecursive<String>();
@@ -68,6 +91,9 @@ public class LinkedListRecursiveTest {
 		assertEquals("Asia", list.get(0));
 	}
 
+	/**
+	 * Test method for get(int)
+	 */
 	@Test
 	public void testGet() {
 		LinkedListRecursive<String> list = new LinkedListRecursive<String>();
@@ -80,6 +106,9 @@ public class LinkedListRecursiveTest {
 
 	}
 
+	/**
+	 * Test method for set(int,E)
+	 */
 	@Test
 	public void testSet() {
 		LinkedListRecursive<String> list = new LinkedListRecursive<String>();
@@ -93,6 +122,9 @@ public class LinkedListRecursiveTest {
 
 	}
 
+	/**
+	 * Test method for add(int, E)
+	 */
 	@Test
 	public void testAddIntE() {
 		LinkedListRecursive<String> list = new LinkedListRecursive<String>();
@@ -110,6 +142,9 @@ public class LinkedListRecursiveTest {
 		assertEquals(7, list.size());
 	}
 
+	/**
+	 * Test method for remove(int)
+	 */
 	@Test
 	public void testRemoveInt() {
 		LinkedListRecursive<String> list = new LinkedListRecursive<String>();
