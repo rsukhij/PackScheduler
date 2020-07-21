@@ -52,7 +52,7 @@ public class Course extends Activity implements Comparable<Course> {
 		setName(name);
 		setSection(section);
 		setCredits(credits);
-		instructorId = null;
+		setInstructorId(instructorId);
 		roll = new CourseRoll(this, enrollmentCap);
 	}
 
@@ -161,6 +161,9 @@ public class Course extends Activity implements Comparable<Course> {
 	 * @param instructorId the instructorId to set
 	 */
 	public void setInstructorId(String instructorId) {
+		if (instructorId == null || instructorId.equals("")) {
+			throw new IllegalArgumentException("Invalid instructor unity id");
+		}
 		this.instructorId = instructorId;
 	}
 
