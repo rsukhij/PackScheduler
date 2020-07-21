@@ -96,9 +96,9 @@ public class CourseRecordIOTest {
 	@Test
 	public void testWriteCourseRecords() {
 		SortedList<Course> courses = new SortedList<Course>();
-		courses.add(new Course("CSC116", "Intro to Programming - Java", "003", 3, "spbalik", 10, "MW", 1250, 1440));
-		courses.add(new Course("CSC216", "Programming Concepts - Java", "001", 4, "sesmith5", 10, "MW", 1330, 1445));
-		courses.add(new Course("CSC216", "Programming Concepts - Java", "601", 4, "jep", 10, "A"));
+		courses.add(new Course("CSC116", "Intro to Programming - Java", "003", 3, null, 10, "MW", 1250, 1440));
+		courses.add(new Course("CSC216", "Programming Concepts - Java", "001", 4, null, 10, "MW", 1330, 1445));
+		courses.add(new Course("CSC216", "Programming Concepts - Java", "601", 4, null, 10, "A"));
 
 		try {
 			CourseRecordIO.writeCourseRecords("test-files/actual_course_records.txt", courses);
