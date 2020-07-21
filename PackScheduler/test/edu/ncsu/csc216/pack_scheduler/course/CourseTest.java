@@ -26,7 +26,7 @@ public class CourseTest {
 	/** Course credits */
 	private static final int CREDITS = 4;
 	/** Course instructor id */
-	private static final String INSTRUCTOR_ID = "sesmith5";
+	private static final String INSTRUCTOR_ID = null;
 	/** Course enrollment cap */
 	private static final int ENROLLMENT_CAP = 10;
 	/** Course meeting days */
@@ -363,35 +363,20 @@ public class CourseTest {
 		// (or anything else).
 		try {
 			c.setInstructorId(null);
-			fail();
-		} catch (IllegalArgumentException e) {
 			assertEquals(NAME, c.getName());
-			assertEquals(TITLE, c.getTitle());
-			assertEquals(SECTION, c.getSection());
-			assertEquals(CREDITS, c.getCredits());
-			assertEquals(INSTRUCTOR_ID, c.getInstructorId());
-			assertEquals(ENROLLMENT_CAP, c.getCourseRoll().getEnrollmentCap());
-			assertEquals(MEETING_DAYS, c.getMeetingDays());
-			assertEquals(START_TIME, c.getStartTime());
-			assertEquals(END_TIME, c.getEndTime());
+            assertEquals(TITLE, c.getTitle());
+            assertEquals(SECTION, c.getSection());
+            assertEquals(CREDITS, c.getCredits());
+            assertEquals(INSTRUCTOR_ID, c.getInstructorId());
+            assertEquals(ENROLLMENT_CAP, c.getCourseRoll().getEnrollmentCap());
+            assertEquals(MEETING_DAYS, c.getMeetingDays());
+            assertEquals(START_TIME, c.getStartTime());
+            assertEquals(END_TIME, c.getEndTime());
+		} catch (IllegalArgumentException e) {
+			fail();
 		}
 
-		// Test that setting the instructor id to "" doesn't change the instructor id
-		// (or anything else).
-		try {
-			c.setInstructorId("");
-			fail();
-		} catch (IllegalArgumentException e) {
-			assertEquals(NAME, c.getName());
-			assertEquals(TITLE, c.getTitle());
-			assertEquals(SECTION, c.getSection());
-			assertEquals(CREDITS, c.getCredits());
-			assertEquals(INSTRUCTOR_ID, c.getInstructorId());
-			assertEquals(ENROLLMENT_CAP, c.getCourseRoll().getEnrollmentCap());
-			assertEquals(MEETING_DAYS, c.getMeetingDays());
-			assertEquals(START_TIME, c.getStartTime());
-			assertEquals(END_TIME, c.getEndTime());
-		}
+		
 
 		// Valid set
 		c.setInstructorId("jtking");
@@ -744,11 +729,11 @@ public class CourseTest {
 	@Test
 	public void testToString() {
 		Activity c1 = new Course(NAME, TITLE, SECTION, CREDITS, INSTRUCTOR_ID, ENROLLMENT_CAP, MEETING_DAYS, START_TIME, END_TIME);
-		String s1 = "CSC216,Programming Concepts - Java,001,4,sesmith5,10,MW,1330,1445";
+		String s1 = "CSC216,Programming Concepts - Java,001,4,null,10,MW,1330,1445";
 		assertEquals(s1, c1.toString());
 
 		Activity c2 = new Course(NAME, TITLE, SECTION, CREDITS, INSTRUCTOR_ID, ENROLLMENT_CAP, "A");
-		String s2 = "CSC216,Programming Concepts - Java,001,4,sesmith5,10,A";
+		String s2 = "CSC216,Programming Concepts - Java,001,4,null,10,A";
 		assertEquals(s2, c2.toString());
 	}
 
