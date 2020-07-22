@@ -6,9 +6,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 import edu.ncsu.csc216.pack_scheduler.catalog.CourseCatalog;
+import edu.ncsu.csc216.pack_scheduler.directory.FacultyDirectory;
 import edu.ncsu.csc216.pack_scheduler.directory.StudentDirectory;
+import edu.ncsu.csc216.pack_scheduler.user.Faculty;
 import edu.ncsu.csc216.pack_scheduler.user.Student;
 import edu.ncsu.csc216.pack_scheduler.user.User;
+import edu.ncsu.csc216.pack_scheduler.user.schedule.FacultySchedule;
 import edu.ncsu.csc216.pack_scheduler.user.schedule.Schedule;
 
 /**
@@ -160,6 +163,8 @@ public class RegistrationManagerTest {
 	 */
 	@Test
 	public void testGetCurrentUser() {
+		manager.logout();
+		
 		assertNull(manager.getCurrentUser());
 		
 		assertTrue(manager.login("registrar", "Regi5tr@r"));
@@ -447,5 +452,171 @@ public class RegistrationManagerTest {
 	    assertEquals(0, scheduleHicksArray.length);
 	    
 	    manager.logout();
+	}
+	
+	/**
+	 * Test method for RegistrationManager.addFacultyToCourse(Course, Faculty)
+	 */
+	@Test
+	public void testAddFacultyToCourse() {
+		FacultyDirectory directory = manager.getFacultyDirectory();
+	    directory.loadFacultyFromFile("test-files/faculty_records.txt");
+	    
+	    CourseCatalog catalog = manager.getCourseCatalog();
+	    catalog.loadCoursesFromFile("test-files/course_records.txt");
+	    
+	    manager.logout(); //In case not handled elsewhere
+	    
+	    //test if not logged in
+	    try {
+	        manager.addFacultyToCourse(catalog.getCourseFromCatalog("CSC216", "001"), directory.getFacultyById("awitt"));
+	        fail("Non-logged in user should throw exception");
+	    } catch (IllegalArgumentException e) {
+	        assertNull(manager.getCurrentUser());
+	        assertEquals("Illegal Action", e.getMessage());
+	    }
+	    
+	    //test fail if registrar is not logged in
+	    assertTrue(manager.login("awitt", "pw"));
+	    try {
+	    	manager.addFacultyToCourse(catalog.getCourseFromCatalog("CSC216", "001"), directory.getFacultyById("awitt"));
+	        fail("Non-registrar user should throw exception");
+	    } catch (IllegalArgumentException e) {
+	    	assertEquals("Illegal Action", e.getMessage());
+	    }
+	    manager.logout();
+	    
+	    //test if registrar is logged in
+	    assertTrue(manager.login("registrar", "Regi5tr@r"));
+	    try {
+	    	catalog.getCourseFromCatalog("CSC116", "002").setInstructorId(null);
+	    	assertTrue(manager.addFacultyToCourse(catalog.getCourseFromCatalog("CSC116", "002"), directory.getFacultyById("awitt")));
+	    } catch (IllegalArgumentException e) {
+	    	fail("Adding faculty to course with registrar should not throw exception");
+	    }
+	    manager.resetFacultySchedule(directory.getFacultyById("awitt"));
+	    
+	    catalog.getCourseFromCatalog("CSC116", "001").setInstructorId(null);
+	    assertTrue(manager.addFacultyToCourse(catalog.getCourseFromCatalog("CSC116", "001"), directory.getFacultyById("fmeadow")));
+	    catalog.getCourseFromCatalog("CSC216", "001").setInstructorId(null);
+	    assertTrue(manager.addFacultyToCourse(catalog.getCourseFromCatalog("CSC216", "001"), directory.getFacultyById("fmeadow")));
+	    catalog.getCourseFromCatalog("CSC230", "001").setInstructorId(null);
+	    assertTrue(manager.addFacultyToCourse(catalog.getCourseFromCatalog("CSC230", "001"), directory.getFacultyById("fmeadow")));
+	    
+	   //Check Student Schedule
+	    Faculty fmeadow = directory.getFacultyById("fmeadow");
+	    FacultySchedule scheduleMeadow = fmeadow.getSchedule();
+	    assertEquals(3, scheduleMeadow.getNumScheduledCourses());
+	    String[][] scheduleMeadowArray = scheduleMeadow.getScheduledCourses();
+	    assertEquals(3, scheduleMeadowArray.length);
+	    assertEquals("CSC116", scheduleMeadowArray[0][0]);
+	    assertEquals("001", scheduleMeadowArray[0][1]);
+	    assertEquals("Intro to Programming - Java", scheduleMeadowArray[0][2]);
+	    assertEquals("MW 9:10AM-11:00AM", scheduleMeadowArray[0][3]);
+	    assertEquals("10", scheduleMeadowArray[0][4]);
+	    assertEquals("CSC216", scheduleMeadowArray[1][0]);
+	    assertEquals("001", scheduleMeadowArray[1][1]);
+	    assertEquals("Programming Concepts - Java", scheduleMeadowArray[1][2]);
+	    assertEquals("TH 1:30PM-2:45PM", scheduleMeadowArray[1][3]);
+	    assertEquals("10", scheduleMeadowArray[1][4]);
+	    assertEquals("CSC230", scheduleMeadowArray[2][0]);
+	    assertEquals("001", scheduleMeadowArray[2][1]);
+	    assertEquals("C and Software Tools", scheduleMeadowArray[2][2]);
+	    assertEquals("MW 11:45AM-1:00PM", scheduleMeadowArray[2][3]);
+	    assertEquals("10", scheduleMeadowArray[2][4]);
+	    
+	    manager.logout();
+	}
+	
+	/**
+	 * Test method for RegistrationManager.removeFacultyFromCourse(Course, Faculty)
+	 */
+	@Test
+	public void testRemoveFacultyFromCourse() {
+		FacultyDirectory directory = manager.getFacultyDirectory();
+	    directory.loadFacultyFromFile("test-files/faculty_records.txt");
+	    
+	    CourseCatalog catalog = manager.getCourseCatalog();
+	    catalog.loadCoursesFromFile("test-files/course_records.txt");
+	    
+	    manager.logout(); //In case not handled elsewhere
+	    
+	    manager.login("registrar", "Regi5tr@r");
+	    catalog.getCourseFromCatalog("CSC116", "001").setInstructorId(null);
+	    assertTrue(manager.addFacultyToCourse(catalog.getCourseFromCatalog("CSC116", "001"), directory.getFacultyById("fmeadow")));
+	    catalog.getCourseFromCatalog("CSC216", "001").setInstructorId(null);
+	    assertTrue(manager.addFacultyToCourse(catalog.getCourseFromCatalog("CSC216", "001"), directory.getFacultyById("fmeadow")));
+	    catalog.getCourseFromCatalog("CSC230", "001").setInstructorId(null);
+	    assertTrue(manager.addFacultyToCourse(catalog.getCourseFromCatalog("CSC230", "001"), directory.getFacultyById("fmeadow")));
+	    
+	    manager.logout();
+	    
+	    try {
+	    	manager.removeFacultyFromCourse(catalog.getCourseFromCatalog("CSC116", "001"), directory.getFacultyById("fmeadow"));
+	    	fail("Removing faculty when not logged in should be invalid");
+	    } catch (IllegalArgumentException e) {
+	    	assertEquals("Illegal Action", e.getMessage());
+	    }
+	    
+	    manager.login("awitt", "pw");
+	    try {
+	    	manager.removeFacultyFromCourse(catalog.getCourseFromCatalog("CSC116", "001"), directory.getFacultyById("fmeadow"));
+	    	fail("Removing faculty when not logged in as registrar should be invalid");
+	    } catch (IllegalArgumentException e) {
+	    	assertEquals("Illegal Action", e.getMessage());
+	    }
+	    manager.logout();
+
+	    manager.login("registrar", "Regi5tr@r");
+	    assertTrue(manager.removeFacultyFromCourse(catalog.getCourseFromCatalog("CSC116", "001"), directory.getFacultyById("fmeadow")));
+	    assertTrue(manager.removeFacultyFromCourse(catalog.getCourseFromCatalog("CSC216", "001"), directory.getFacultyById("fmeadow")));
+	    assertTrue(manager.removeFacultyFromCourse(catalog.getCourseFromCatalog("CSC230", "001"), directory.getFacultyById("fmeadow")));
+	    assertEquals(0, directory.getFacultyById("fmeadow").getSchedule().getNumScheduledCourses());
+	}
+	
+	/**
+	 * Test method for RegistrationManager.resetFacultySchedule(Faculty)
+	 */
+	@Test
+	public void testResetFacultySchedule() {
+		FacultyDirectory directory = manager.getFacultyDirectory();
+	    directory.loadFacultyFromFile("test-files/faculty_records.txt");
+	    
+	    CourseCatalog catalog = manager.getCourseCatalog();
+	    catalog.loadCoursesFromFile("test-files/course_records.txt");
+	    
+	    manager.logout(); //In case not handled elsewhere
+	    
+	    manager.login("registrar", "Regi5tr@r");
+	    catalog.getCourseFromCatalog("CSC116", "001").setInstructorId(null);
+	    assertTrue(manager.addFacultyToCourse(catalog.getCourseFromCatalog("CSC116", "001"), directory.getFacultyById("fmeadow")));
+	    catalog.getCourseFromCatalog("CSC216", "001").setInstructorId(null);
+	    assertTrue(manager.addFacultyToCourse(catalog.getCourseFromCatalog("CSC216", "001"), directory.getFacultyById("fmeadow")));
+	    catalog.getCourseFromCatalog("CSC230", "001").setInstructorId(null);
+	    assertTrue(manager.addFacultyToCourse(catalog.getCourseFromCatalog("CSC230", "001"), directory.getFacultyById("fmeadow")));
+	    
+	    manager.logout();
+	    
+	    try {
+	    	manager.resetFacultySchedule(directory.getFacultyById("fmeadow"));
+	    	fail("Reseting faculty schedule when not logged in should be invalid");
+	    } catch (IllegalArgumentException e) {
+	    	assertEquals("Illegal Action", e.getMessage());
+	    	assertEquals(3, directory.getFacultyById("fmeadow").getSchedule().getNumScheduledCourses());
+	    }
+	    
+	    manager.login("awitt", "pw");
+	    try {
+	    	manager.resetFacultySchedule(directory.getFacultyById("fmeadow"));
+	    	fail("Reseting faculty schedule when not logged in as registrar should be invalid");
+	    } catch (IllegalArgumentException e) {
+	    	assertEquals("Illegal Action", e.getMessage());
+	    	assertEquals(3, directory.getFacultyById("fmeadow").getSchedule().getNumScheduledCourses());
+	    }
+	    manager.logout();
+	    
+	    manager.login("registrar", "Regi5tr@r");
+	    manager.resetFacultySchedule(directory.getFacultyById("fmeadow"));
+	    assertEquals(0, directory.getFacultyById("fmeadow").getSchedule().getNumScheduledCourses());
 	}
 }

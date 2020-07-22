@@ -309,4 +309,46 @@ public class RegistrationManager {
 	        //do nothing 
 	    }
 	}
+	
+	/**
+	 * Returns true if successfully adds course to faculty's schedule
+	 * 
+	 * @param course the Course to add to the schedule
+	 * @param faculty the Faculty to add course to
+	 * @return true if successfully added course to faculty's schedule
+	 */
+	public boolean addFacultyToCourse(Course course, Faculty faculty) {
+		if (currentUser == null || !currentUser.equals(registrar)) {
+			throw new IllegalArgumentException("Illegal Action");
+		}
+		faculty.getSchedule().addCourseToSchedule(course);
+		return true;
+	}
+	
+	/**
+	 * Returns true if successfully removes course from faculty's schedule
+	 * 
+	 * @param course the Course to remove from the schedule
+	 * @param faculty the Faculty to remove course from
+	 * @return true if successfully removed course from faculty's schedule
+	 */
+	public boolean removeFacultyFromCourse(Course course, Faculty faculty) {
+		if (currentUser == null || !currentUser.equals(registrar)) {
+			throw new IllegalArgumentException("Illegal Action");
+		}
+		faculty.getSchedule().removeCourseFromSchedule(course);
+		return true;
+	}
+	
+	/**
+	 * Empties faculty's schedule
+	 * 
+	 * @param faculty the Faculty to reset schedule
+	 */
+	public void resetFacultySchedule(Faculty faculty) {
+		if (currentUser == null || !currentUser.equals(registrar)) {
+			throw new IllegalArgumentException("Illegal Action");
+		}
+		faculty.getSchedule().resetSchedule();
+	}
 }
