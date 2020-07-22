@@ -56,7 +56,10 @@ public class FacultySchedule {
      * @return true if added
      */
     public boolean removeCourseFromSchedule(Course course) {
-        if (schedule.remove(course)) {
+    	if (course == null) {
+    		return false;
+    	}
+    	if (schedule.remove(course)) {
             course.setInstructorId(null);
             return true;
         }

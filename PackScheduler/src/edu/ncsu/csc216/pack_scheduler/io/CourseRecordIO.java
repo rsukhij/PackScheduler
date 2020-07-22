@@ -9,6 +9,9 @@ import java.util.Scanner;
 
 import edu.ncsu.csc216.collections.list.SortedList;
 import edu.ncsu.csc216.pack_scheduler.course.Course;
+import edu.ncsu.csc216.pack_scheduler.directory.FacultyDirectory;
+import edu.ncsu.csc216.pack_scheduler.manager.RegistrationManager;
+import edu.ncsu.csc216.pack_scheduler.user.Faculty;
 
 /**
  * Reads Course records from text files.
@@ -64,7 +67,7 @@ public class CourseRecordIO {
 		lineReader.useDelimiter(",");
 
 		Course course = null;
-		String name, title, section, instructorId, meetingDays;
+		String name, title, section, instructorId = null, meetingDays;
 		int credits, enrollmentCap, startTime, endTime;
 
 		try {
@@ -80,18 +83,26 @@ public class CourseRecordIO {
 					lineReader.close();
 					throw new IllegalArgumentException();
 				}
-				course = new Course(name, title, section, credits, instructorId, enrollmentCap, meetingDays);
+				course = new Course(name, title, section, credits, null, enrollmentCap, meetingDays);
 			} else {
 				startTime = lineReader.nextInt();
 				endTime = lineReader.nextInt();
-				course = new Course(name, title, section, credits, instructorId, enrollmentCap, meetingDays, startTime, endTime);
+				course = new Course(name, title, section, credits, null, enrollmentCap, meetingDays, startTime, endTime);
 			}
 		} catch (Exception e) {
 			lineReader.close();
 			throw new IllegalArgumentException();
+		}		
+		lineReader.close();
+		
+		FacultyDirectory facultyDirectory = RegistrationManager.getInstance().getFacultyDirectory();
+		for (int i = 0; i < facultyDirectory.getFacultyDirectory().length; i++) {
+			Faculty faculty = facultyDirectory.getFacultyById(facultyDirectory.getFacultyDirectory()[i][2]);
+			if (instructorId.equals(faculty.getId())) {
+				faculty.getSchedule().addCourseToSchedule(course);
+			}
 		}
 
-		lineReader.close();
 		return course;
 	}
 

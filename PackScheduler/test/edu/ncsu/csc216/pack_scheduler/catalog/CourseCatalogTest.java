@@ -81,7 +81,7 @@ public class CourseCatalogTest {
 	public void testGetCourseFromCatalog() {
 		CourseCatalog a = new CourseCatalog();
 		a.loadCoursesFromFile("test-files/expected_course_catalog.txt");
-		Course b = new Course("CSC216", "Programming Concepts - Java", "001", 4, "sesmith5", 10, "TH", 1330, 1445);
+		Course b = new Course("CSC216", "Programming Concepts - Java", "001", 4, null, 10, "TH", 1330, 1445);
 		assertTrue(a.getCourseFromCatalog("CSC216", "001").equals(b));
 	}
 

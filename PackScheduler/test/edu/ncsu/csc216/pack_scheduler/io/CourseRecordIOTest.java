@@ -15,7 +15,9 @@ import org.junit.Test;
 
 import edu.ncsu.csc216.collections.list.SortedList;
 import edu.ncsu.csc216.pack_scheduler.course.Course;
+import edu.ncsu.csc216.pack_scheduler.directory.FacultyDirectory;
 import edu.ncsu.csc216.pack_scheduler.io.CourseRecordIO;
+import edu.ncsu.csc216.pack_scheduler.manager.RegistrationManager;
 
 /**
  * Tests CouresRecordIO.
@@ -64,6 +66,16 @@ public class CourseRecordIOTest {
 	 */
 	@Test
 	public void testReadValidCourseRecords() {
+		FacultyDirectory facultyDirectory = RegistrationManager.getInstance().getFacultyDirectory();
+		facultyDirectory.addFaculty("Jason", "Young", "jdyoung2", "jdyoung2@ncsu.edu", "pw", "pw", 2);
+		facultyDirectory.addFaculty("Sasha", "Balik", "spbalik", "spbalik@ncsu.edu", "pw", "pw", 2);
+		facultyDirectory.addFaculty("Ted", "Dimitr", "tbdimitr", "tbdimitr@ncsu.edu", "pw", "pw", 2);
+		facultyDirectory.addFaculty("Susan", "Smith", "sesmith5", "sesmith5@ncsu.edu", "pw", "pw", 2);
+		facultyDirectory.addFaculty("Justin", "King", "jtking", "jtking@ncsu.edu", "pw", "pw", 2);
+		facultyDirectory.addFaculty("Jennifer", "P", "jep", "jep@ncsu.edu", "pw", "pw", 2);
+		facultyDirectory.addFaculty("Tyler", "Barnes", "tmbarnes", "tmbarnes@ncsu.edu", "pw", "pw", 2);
+		facultyDirectory.addFaculty("Darren", "Sturgi", "dbsturgi", "dbsturgi@ncsu.edu", "pw", "pw", 2);
+		
 		try {
 			SortedList<Course> courses = CourseRecordIO.readCourseRecords(validTestFile);
 			assertEquals(8, courses.size());
@@ -130,5 +142,4 @@ public class CourseRecordIOTest {
 			fail("Error reading files.");
 		}
 	}
-
 }
