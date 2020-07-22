@@ -95,12 +95,9 @@ public class CourseRecordIO {
 		}		
 		lineReader.close();
 		
-		FacultyDirectory facultyDirectory = RegistrationManager.getInstance().getFacultyDirectory();
-		for (int i = 0; i < facultyDirectory.getFacultyDirectory().length; i++) {
-			Faculty faculty = facultyDirectory.getFacultyById(facultyDirectory.getFacultyDirectory()[i][2]);
-			if (instructorId.equals(faculty.getId())) {
-				faculty.getSchedule().addCourseToSchedule(course);
-			}
+		Faculty faculty = RegistrationManager.getInstance().getFacultyDirectory().getFacultyById(instructorId);
+		if (faculty != null) {
+			faculty.getSchedule().addCourseToSchedule(course);
 		}
 
 		return course;

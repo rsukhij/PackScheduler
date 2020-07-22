@@ -99,9 +99,8 @@ public class CourseCatalog {
 	 */
 	public Course getCourseFromCatalog(String name, String section) {
 		for (int i = 0; i < catalog.size(); i++) {
-			Course course = catalog.get(i);
-			if (course.getName().equals(name) && course.getSection().equals(section)) {
-				return course;
+			if (catalog.get(i).getName().equals(name) && catalog.get(i).getSection().equals(section)) {
+				return catalog.get(i);
 			}
 		}
 		return null;
