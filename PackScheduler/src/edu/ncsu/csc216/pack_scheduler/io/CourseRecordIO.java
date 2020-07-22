@@ -1,6 +1,7 @@
 package edu.ncsu.csc216.pack_scheduler.io;
 
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -9,7 +10,6 @@ import java.util.Scanner;
 
 import edu.ncsu.csc216.collections.list.SortedList;
 import edu.ncsu.csc216.pack_scheduler.course.Course;
-import edu.ncsu.csc216.pack_scheduler.directory.FacultyDirectory;
 import edu.ncsu.csc216.pack_scheduler.manager.RegistrationManager;
 import edu.ncsu.csc216.pack_scheduler.user.Faculty;
 
