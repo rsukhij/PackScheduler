@@ -1,6 +1,6 @@
 package edu.ncsu.csc216.pack_scheduler.io;
 
-import java.io.File;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
