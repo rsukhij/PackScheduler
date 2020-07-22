@@ -26,7 +26,7 @@ public class CourseTest {
 	/** Course credits */
 	private static final int CREDITS = 4;
 	/** Course instructor id */
-	private static final String INSTRUCTOR_ID = null;
+	private static final String INSTRUCTOR_ID = "sesmith5";
 	/** Course enrollment cap */
 	private static final int ENROLLMENT_CAP = 10;
 	/** Course meeting days */
@@ -359,12 +359,13 @@ public class CourseTest {
 		assertEquals(START_TIME, c.getStartTime());
 		assertEquals(END_TIME, c.getEndTime());
 
-		// Test that setting the instructor id to null doesn't change the instructor id
+		// Test that setting the instructor id to "" doesn't change the instructor id
 		// (or anything else).
 		try {
-			c.setInstructorId(null);
-			assertEquals(NAME, c.getName());
-            assertEquals(TITLE, c.getTitle());
+		    c.setInstructorId("");
+		    fail();
+		} catch(IllegalArgumentException e) {
+		    assertEquals(TITLE, c.getTitle());
             assertEquals(SECTION, c.getSection());
             assertEquals(CREDITS, c.getCredits());
             assertEquals(INSTRUCTOR_ID, c.getInstructorId());
@@ -372,11 +373,7 @@ public class CourseTest {
             assertEquals(MEETING_DAYS, c.getMeetingDays());
             assertEquals(START_TIME, c.getStartTime());
             assertEquals(END_TIME, c.getEndTime());
-		} catch (IllegalArgumentException e) {
-			fail();
 		}
-
-		
 
 		// Valid set
 		c.setInstructorId("jtking");
@@ -673,7 +670,7 @@ public class CourseTest {
 				END_TIME);
 		Activity c4 = new Course(NAME, TITLE, "002", CREDITS, INSTRUCTOR_ID, ENROLLMENT_CAP, MEETING_DAYS, START_TIME, END_TIME);
 		Activity c5 = new Course(NAME, TITLE, SECTION, 5, INSTRUCTOR_ID, ENROLLMENT_CAP, MEETING_DAYS, START_TIME, END_TIME);
-//		Activity c6 = new Course(NAME, TITLE, SECTION, CREDITS, "Different", ENROLLMENT_CAP, MEETING_DAYS, START_TIME, END_TIME);
+		Activity c6 = new Course(NAME, TITLE, SECTION, CREDITS, "Different", ENROLLMENT_CAP, MEETING_DAYS, START_TIME, END_TIME);
 //		Activity c7 = new Course(NAME, TITLE, SECTION, CREDITS, INSTRUCTOR_ID, 50, MEETING_DAYS, START_TIME, END_TIME);
 		Activity c8 = new Course(NAME, TITLE, SECTION, CREDITS, INSTRUCTOR_ID, ENROLLMENT_CAP, "TH", START_TIME, END_TIME);
 		Activity c9 = new Course(NAME, TITLE, SECTION, CREDITS, INSTRUCTOR_ID, ENROLLMENT_CAP, MEETING_DAYS, 830, END_TIME);
@@ -687,7 +684,7 @@ public class CourseTest {
 		assertFalse(c1.equals(c3));
 		assertFalse(c1.equals(c4));
 		assertFalse(c1.equals(c5));
-//		assertFalse(c1.equals(c6));
+		assertFalse(c1.equals(c6));
 //		assertFalse(c1.equals(c7));
 		assertFalse(c1.equals(c8));
 		assertFalse(c1.equals(c9));
@@ -705,7 +702,7 @@ public class CourseTest {
 				END_TIME);
 		Activity c4 = new Course(NAME, TITLE, "002", CREDITS, INSTRUCTOR_ID, ENROLLMENT_CAP, MEETING_DAYS, START_TIME, END_TIME);
 		Activity c5 = new Course(NAME, TITLE, SECTION, 5, INSTRUCTOR_ID, ENROLLMENT_CAP, MEETING_DAYS, START_TIME, END_TIME);
-//		Activity c6 = new Course(NAME, TITLE, SECTION, CREDITS, "Different", ENROLLMENT_CAP, MEETING_DAYS, START_TIME, END_TIME);
+		Activity c6 = new Course(NAME, TITLE, SECTION, CREDITS, "Different", ENROLLMENT_CAP, MEETING_DAYS, START_TIME, END_TIME);
 		Activity c7 = new Course(NAME, TITLE, SECTION, CREDITS, INSTRUCTOR_ID, ENROLLMENT_CAP, "TH", START_TIME, END_TIME);
 		Activity c8 = new Course(NAME, TITLE, SECTION, CREDITS, INSTRUCTOR_ID, ENROLLMENT_CAP, MEETING_DAYS, 830, END_TIME);
 		Activity c9 = new Course(NAME, TITLE, SECTION, CREDITS, INSTRUCTOR_ID, ENROLLMENT_CAP, MEETING_DAYS, START_TIME, 1400);
@@ -717,7 +714,7 @@ public class CourseTest {
 		assertNotEquals(c1.hashCode(), c3.hashCode());
 		assertNotEquals(c1.hashCode(), c4.hashCode());
 		assertNotEquals(c1.hashCode(), c5.hashCode());
-//		assertNotEquals(c1.hashCode(), c6.hashCode());
+		assertNotEquals(c1.hashCode(), c6.hashCode());
 		assertNotEquals(c1.hashCode(), c7.hashCode());
 		assertNotEquals(c1.hashCode(), c8.hashCode());
 		assertNotEquals(c1.hashCode(), c9.hashCode());
@@ -729,11 +726,11 @@ public class CourseTest {
 	@Test
 	public void testToString() {
 		Activity c1 = new Course(NAME, TITLE, SECTION, CREDITS, INSTRUCTOR_ID, ENROLLMENT_CAP, MEETING_DAYS, START_TIME, END_TIME);
-		String s1 = "CSC216,Programming Concepts - Java,001,4,null,10,MW,1330,1445";
+		String s1 = "CSC216,Programming Concepts - Java,001,4,sesmith5,10,MW,1330,1445";
 		assertEquals(s1, c1.toString());
 
 		Activity c2 = new Course(NAME, TITLE, SECTION, CREDITS, INSTRUCTOR_ID, ENROLLMENT_CAP, "A");
-		String s2 = "CSC216,Programming Concepts - Java,001,4,null,10,A";
+		String s2 = "CSC216,Programming Concepts - Java,001,4,sesmith5,10,A";
 		assertEquals(s2, c2.toString());
 	}
 
