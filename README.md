@@ -1,4 +1,13 @@
 # csc216-051-LLL-05
+## Lab 12
+
+### Raymond: Finish the GUI- Due 7/24
+
+### Ethan: Finish the GUI and BBT- Due 7/24
+
+### Rohan: Finish  the GUI and BBT- Due 7/24
+
+
 ## Lab 11
 
 ### Raymond: TBA- Due 7/22
