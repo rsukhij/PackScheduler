@@ -80,10 +80,8 @@ public class LinkedListRecursive<E> {
 	 * @throws IllegalArgumentException if the element already exists in the list
 	 */
 	public boolean remove(E e) {
-	    if (e == null) {
-	        throw new NullPointerException();
-	    }
-		if (size == 0) {
+	    
+		if (size == 0 || e == null) {
 			return false;
 		}
 		if (front.data == e) {
@@ -119,6 +117,9 @@ public class LinkedListRecursive<E> {
 	public E set(int index, E e) {
 		if (e == null) {
 			throw new NullPointerException();
+		}
+		if (contains(e)) {
+			throw new IllegalArgumentException();
 		}
 		if (index < 0 || index >= size) {
 			throw new IndexOutOfBoundsException();
