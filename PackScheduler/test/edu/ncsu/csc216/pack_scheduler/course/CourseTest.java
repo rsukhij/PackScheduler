@@ -673,7 +673,7 @@ public class CourseTest {
 				END_TIME);
 		Activity c4 = new Course(NAME, TITLE, "002", CREDITS, INSTRUCTOR_ID, ENROLLMENT_CAP, MEETING_DAYS, START_TIME, END_TIME);
 		Activity c5 = new Course(NAME, TITLE, SECTION, 5, INSTRUCTOR_ID, ENROLLMENT_CAP, MEETING_DAYS, START_TIME, END_TIME);
-		Activity c6 = new Course(NAME, TITLE, SECTION, CREDITS, "Different", ENROLLMENT_CAP, MEETING_DAYS, START_TIME, END_TIME);
+//		Activity c6 = new Course(NAME, TITLE, SECTION, CREDITS, "Different", ENROLLMENT_CAP, MEETING_DAYS, START_TIME, END_TIME);
 //		Activity c7 = new Course(NAME, TITLE, SECTION, CREDITS, INSTRUCTOR_ID, 50, MEETING_DAYS, START_TIME, END_TIME);
 		Activity c8 = new Course(NAME, TITLE, SECTION, CREDITS, INSTRUCTOR_ID, ENROLLMENT_CAP, "TH", START_TIME, END_TIME);
 		Activity c9 = new Course(NAME, TITLE, SECTION, CREDITS, INSTRUCTOR_ID, ENROLLMENT_CAP, MEETING_DAYS, 830, END_TIME);
@@ -687,7 +687,7 @@ public class CourseTest {
 		assertFalse(c1.equals(c3));
 		assertFalse(c1.equals(c4));
 		assertFalse(c1.equals(c5));
-		assertFalse(c1.equals(c6));
+//		assertFalse(c1.equals(c6));
 //		assertFalse(c1.equals(c7));
 		assertFalse(c1.equals(c8));
 		assertFalse(c1.equals(c9));
@@ -705,7 +705,7 @@ public class CourseTest {
 				END_TIME);
 		Activity c4 = new Course(NAME, TITLE, "002", CREDITS, INSTRUCTOR_ID, ENROLLMENT_CAP, MEETING_DAYS, START_TIME, END_TIME);
 		Activity c5 = new Course(NAME, TITLE, SECTION, 5, INSTRUCTOR_ID, ENROLLMENT_CAP, MEETING_DAYS, START_TIME, END_TIME);
-		Activity c6 = new Course(NAME, TITLE, SECTION, CREDITS, "Different", ENROLLMENT_CAP, MEETING_DAYS, START_TIME, END_TIME);
+//		Activity c6 = new Course(NAME, TITLE, SECTION, CREDITS, "Different", ENROLLMENT_CAP, MEETING_DAYS, START_TIME, END_TIME);
 		Activity c7 = new Course(NAME, TITLE, SECTION, CREDITS, INSTRUCTOR_ID, ENROLLMENT_CAP, "TH", START_TIME, END_TIME);
 		Activity c8 = new Course(NAME, TITLE, SECTION, CREDITS, INSTRUCTOR_ID, ENROLLMENT_CAP, MEETING_DAYS, 830, END_TIME);
 		Activity c9 = new Course(NAME, TITLE, SECTION, CREDITS, INSTRUCTOR_ID, ENROLLMENT_CAP, MEETING_DAYS, START_TIME, 1400);
@@ -717,7 +717,7 @@ public class CourseTest {
 		assertNotEquals(c1.hashCode(), c3.hashCode());
 		assertNotEquals(c1.hashCode(), c4.hashCode());
 		assertNotEquals(c1.hashCode(), c5.hashCode());
-		assertNotEquals(c1.hashCode(), c6.hashCode());
+//		assertNotEquals(c1.hashCode(), c6.hashCode());
 		assertNotEquals(c1.hashCode(), c7.hashCode());
 		assertNotEquals(c1.hashCode(), c8.hashCode());
 		assertNotEquals(c1.hashCode(), c9.hashCode());
