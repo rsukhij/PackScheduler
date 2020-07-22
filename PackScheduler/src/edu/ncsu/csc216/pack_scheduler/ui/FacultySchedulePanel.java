@@ -119,26 +119,12 @@ public class FacultySchedulePanel implements ActionListener {
      * Creates the requirements list.
      */
     public FacultySchedulePanel() {
-        super();
+        super(new GridBagLayout());
         
         RegistrationManager manager = RegistrationManager.getInstance();
         currentUser = (Faculty)manager.getCurrentUser();
         catalog = manager.getCourseCatalog();
         
-        //Set up the JPanel that will hold action buttons       
-        btnAddCourse = new JButton("Add Course");
-        btnAddCourse.addActionListener(this);
-        btnRemoveCourse = new JButton("Remove Course");
-        btnRemoveCourse.addActionListener(this);
-        btnReset = new JButton("Reset Schedule");
-        btnReset.addActionListener(this);
-        btnDisplay = new JButton("Display Final Schedule");
-//      btnDisplay.addActionListener(this);
-        btnDisplay.setEnabled(false);
-        lblScheduleTitle = new JLabel("Schedule Title: ");
-        txtScheduleTitle = new JTextField("", 20); 
-        btnSetScheduleTitle = new JButton("Set Title");
-        btnSetScheduleTitle.addActionListener(this);
         
         JPanel pnlActions = new JPanel();
         pnlActions.setLayout(new GridLayout(3, 1));
