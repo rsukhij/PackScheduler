@@ -52,6 +52,9 @@ public class CourseRecordIO {
 			}
 		}
 		fileReader.close();
+		for (int i = 0; i < courses.size(); i++) {
+			System.out.println(courses.get(i).toString());
+		}
 		return courses;
 	}
 
