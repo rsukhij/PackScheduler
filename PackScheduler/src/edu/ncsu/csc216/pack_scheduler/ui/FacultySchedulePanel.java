@@ -29,7 +29,6 @@ import edu.ncsu.csc216.pack_scheduler.course.Course;
 import edu.ncsu.csc216.pack_scheduler.course.roll.CourseRoll;
 import edu.ncsu.csc216.pack_scheduler.directory.StudentDirectory;
 import edu.ncsu.csc216.pack_scheduler.manager.RegistrationManager;
-import edu.ncsu.csc216.pack_scheduler.ui.StudentDirectoryPanel.StudentDirectoryTableModel;
 import edu.ncsu.csc216.pack_scheduler.user.Faculty;
 import edu.ncsu.csc216.pack_scheduler.user.Student;
 import edu.ncsu.csc216.pack_scheduler.user.schedule.FacultySchedule;
@@ -116,7 +115,7 @@ public class FacultySchedulePanel extends JPanel implements ActionListener {
         
         RegistrationManager manager = RegistrationManager.getInstance();
         currentUser = (Faculty) manager.getCurrentUser();
-        catalog = manager.getCourseCatalog();
+        CourseCatalog catalog = manager.getCourseCatalog();
         
         
 //        JPanel pnlActions = new JPanel();
@@ -178,7 +177,7 @@ public class FacultySchedulePanel extends JPanel implements ActionListener {
         });
         
         scrollSchedule = new JScrollPane(tableSchedule, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        
+        scrollStudentRoll = new JScrollPane(tableSchedule, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         borderSchedule = BorderFactory.createTitledBorder(lowerEtched, "Faculty Schedule");
         scrollSchedule.setBorder(borderSchedule);
         scrollSchedule.setToolTipText("Faculty Schedule");
@@ -269,7 +268,17 @@ public class FacultySchedulePanel extends JPanel implements ActionListener {
         c.anchor = GridBagConstraints.FIRST_LINE_START;
         c.fill = GridBagConstraints.BOTH;
         add(scrollStudentRoll, c);
-        
+        tableSchedule.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				String name = tableSchedule.getValueAt(tableSchedule.getSelectedRow(), 0).toString();
+				String section = tableSchedule.getValueAt(tableSchedule.getSelectedRow(), 1).toString();
+				Course c = catalog.getCourseFromCatalog(name, section);
+				updateCourseDetails(c);
+			}
+			
+		});
        
     }
 
@@ -322,8 +331,8 @@ public class FacultySchedulePanel extends JPanel implements ActionListener {
      * Updates the catalog and schedule tables.
      */
     public void updateTables() {
-        studentRollTableModel.updateData(course);
         scheduleTableModel.updateData();
+       
     }
     
     /**
@@ -426,6 +435,7 @@ public class FacultySchedulePanel extends JPanel implements ActionListener {
         		FacultySchedulePanel.this.validate();
 
             }
+        	
         }
     }
 
