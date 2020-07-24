@@ -34,10 +34,12 @@ import edu.ncsu.csc216.pack_scheduler.user.Faculty;
  * 
  * @author Sarah Heckman
  */
-public class InstructorAssignmentPanel  extends JPanel implements ActionListener {
+public class InstructorAssignmentPanel extends JPanel implements ActionListener {
 	/** ID number used for object serialization. */
 	private static final long serialVersionUID = 1L;
-	/** Button for adding the selected faculty to the selected course as instructor */
+	/**
+	 * Button for adding the selected faculty to the selected course as instructor
+	 */
 	private JButton btnAssignFacultyToCourse;
 	/** Button for removing the selected faculty from the selected course */
 	private JButton btnRemoveFacultyFromCourse;
@@ -95,11 +97,11 @@ public class InstructorAssignmentPanel  extends JPanel implements ActionListener
 	private JLabel lblIdTitle = new JLabel("Id: ");
 	/** Label for Faculty Details email title */
 	private JLabel lblEmailTitle = new JLabel("Email: ");
-	/** Label for Faculty Details max courses title*/
+	/** Label for Faculty Details max courses title */
 	private JLabel lblMaxCourseTitle = new JLabel("Max Courses: ");
 	/** Label for Faculty Details overloaded title */
 	private JLabel lblOverloadedTitle = new JLabel("Overloaded: ");
-	/** Label for Faculty Details first name*/
+	/** Label for Faculty Details first name */
 	private JLabel lblFirstName = new JLabel("");
 	/** Label for Faculty Details last name */
 	private JLabel lblLastName = new JLabel("");
@@ -115,44 +117,44 @@ public class InstructorAssignmentPanel  extends JPanel implements ActionListener
 	private CourseCatalog catalog;
 	/** Faculty directory */
 	private FacultyDirectory facultyDirectory;
-	
-	
+
 	/**
 	 * Creates the requirements list.
 	 */
 	public InstructorAssignmentPanel() {
 		super(new GridBagLayout());
-		
+
 		RegistrationManager manager = RegistrationManager.getInstance();
 		catalog = manager.getCourseCatalog();
 		facultyDirectory = manager.getFacultyDirectory();
-		
-		//Set up the JPanel that will hold action buttons		
+
+		// Set up the JPanel that will hold action buttons
 		btnAssignFacultyToCourse = new JButton("Assign Faculty to Course");
 		btnAssignFacultyToCourse.addActionListener(this);
 		btnRemoveFacultyFromCourse = new JButton("Remove Faculty from Course");
 		btnRemoveFacultyFromCourse.addActionListener(this);
 		btnReset = new JButton("Reset Faculty Schedule");
 		btnReset.addActionListener(this);
-		
+
 		JPanel pnlActions = new JPanel();
 		pnlActions.setLayout(new GridLayout(1, 3));
 		pnlActions.add(btnAssignFacultyToCourse);
 		pnlActions.add(btnRemoveFacultyFromCourse);
 		pnlActions.add(btnReset);
-		
+
 		Border lowerEtched = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
 		TitledBorder borderActions = BorderFactory.createTitledBorder(lowerEtched, "Actions");
 		pnlActions.setBorder(borderActions);
 		pnlActions.setToolTipText("Scheduler Actions");
-					
-		//Set up Catalog table
+
+		// Set up Catalog table
 		catalogTableModel = new CourseCatalogTableModel();
 		tableCatalog = new JTable(catalogTableModel) {
 			private static final long serialVersionUID = 1L;
-			
+
 			/**
 			 * Set custom tool tips for cells
+			 * 
 			 * @param e MouseEvent that causes the tool tip
 			 * @return tool tip text
 			 */
@@ -161,9 +163,9 @@ public class InstructorAssignmentPanel  extends JPanel implements ActionListener
 				int rowIndex = rowAtPoint(p);
 				int colIndex = columnAtPoint(p);
 				int realColumnIndex = convertColumnIndexToModel(colIndex);
-				
+
 				if (rowIndex != -1 && realColumnIndex != -1) {
-					return (String)catalogTableModel.getValueAt(rowIndex, realColumnIndex);
+					return (String) catalogTableModel.getValueAt(rowIndex, realColumnIndex);
 				} else {
 					return "";
 				}
@@ -181,22 +183,24 @@ public class InstructorAssignmentPanel  extends JPanel implements ActionListener
 				Course c = catalog.getCourseFromCatalog(name, section);
 				updateCourseDetails(c);
 			}
-			
+
 		});
-		
-		JScrollPane scrollCatalog = new JScrollPane(tableCatalog, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		
+
+		JScrollPane scrollCatalog = new JScrollPane(tableCatalog, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
 		TitledBorder borderCatalog = BorderFactory.createTitledBorder(lowerEtched, "Course Catalog");
 		scrollCatalog.setBorder(borderCatalog);
 		scrollCatalog.setToolTipText("Course Catalog");
-		
-		//Set up Faculty Directory table
+
+		// Set up Faculty Directory table
 		facultyTableModel = new FacultyDirectoryTableModel();
-		tableFaculty = new JTable(facultyTableModel){
+		tableFaculty = new JTable(facultyTableModel) {
 			private static final long serialVersionUID = 1L;
-			
+
 			/**
 			 * Set custom tool tips for cells
+			 * 
 			 * @param e MouseEvent that causes the tool tip
 			 * @return tool tip text
 			 */
@@ -205,9 +209,9 @@ public class InstructorAssignmentPanel  extends JPanel implements ActionListener
 				int rowIndex = rowAtPoint(p);
 				int colIndex = columnAtPoint(p);
 				int realColumnIndex = convertColumnIndexToModel(colIndex);
-				
+
 				if (rowIndex != -1 && realColumnIndex != -1) {
-					return (String)catalogTableModel.getValueAt(rowIndex, realColumnIndex);
+					return (String) catalogTableModel.getValueAt(rowIndex, realColumnIndex);
 				} else {
 					return "";
 				}
@@ -224,19 +228,19 @@ public class InstructorAssignmentPanel  extends JPanel implements ActionListener
 				Faculty f = facultyDirectory.getFacultyById(id);
 				updateFacultyDetails(f);
 			}
-			
+
 		});
-		
-		JScrollPane scrollFaculty = new JScrollPane(tableFaculty, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-				
+
+		JScrollPane scrollFaculty = new JScrollPane(tableFaculty, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
 		TitledBorder borderFaculty = BorderFactory.createTitledBorder(lowerEtched, "Faculty Directory");
 		scrollFaculty.setBorder(borderFaculty);
 		scrollFaculty.setToolTipText("Faculty Directory");
-		
-		
+
 		updateTables();
-		
-		//Set up the course details panel
+
+		// Set up the course details panel
 		pnlCourseDetails = new JPanel();
 		pnlCourseDetails.setLayout(new GridLayout(5, 1));
 		JPanel pnlName = new JPanel(new GridLayout(1, 4));
@@ -244,38 +248,38 @@ public class InstructorAssignmentPanel  extends JPanel implements ActionListener
 		pnlName.add(lblName);
 		pnlName.add(lblSectionTitle);
 		pnlName.add(lblSection);
-		
+
 		JPanel pnlTitle = new JPanel(new GridLayout(1, 1));
 		pnlTitle.add(lblTitleTitle);
 		pnlTitle.add(lblTitle);
-		
+
 		JPanel pnlInstructor = new JPanel(new GridLayout(1, 4));
 		pnlInstructor.add(lblInstructorTitle);
 		pnlInstructor.add(lblInstructor);
 		pnlInstructor.add(lblCreditsTitle);
 		pnlInstructor.add(lblCredits);
-		
+
 		JPanel pnlMeeting = new JPanel(new GridLayout(1, 1));
 		pnlMeeting.add(lblMeetingTitle);
 		pnlMeeting.add(lblMeeting);
-		
+
 		JPanel pnlEnrollment = new JPanel(new GridLayout(1, 4));
 		pnlEnrollment.add(lblEnrollmentCapTitle);
 		pnlEnrollment.add(lblEnrollmentCap);
 		pnlEnrollment.add(lblOpenSeatsTitle);
 		pnlEnrollment.add(lblOpenSeats);
-		
+
 		pnlCourseDetails.add(pnlName);
 		pnlCourseDetails.add(pnlTitle);
 		pnlCourseDetails.add(pnlInstructor);
 		pnlCourseDetails.add(pnlMeeting);
 		pnlCourseDetails.add(pnlEnrollment);
-		
+
 		TitledBorder borderCourseDetails = BorderFactory.createTitledBorder(lowerEtched, "Course Details");
 		pnlCourseDetails.setBorder(borderCourseDetails);
 		pnlCourseDetails.setToolTipText("Course Details");
-		
-		//Set up faculty details panel
+
+		// Set up faculty details panel
 		pnlFacultyDetails = new JPanel();
 		pnlFacultyDetails.setLayout(new GridLayout(6, 2));
 		pnlFacultyDetails.add(lblFirstNameTitle);
@@ -290,11 +294,11 @@ public class InstructorAssignmentPanel  extends JPanel implements ActionListener
 		pnlFacultyDetails.add(lblMaxCourse);
 		pnlFacultyDetails.add(lblOverloadedTitle);
 		pnlFacultyDetails.add(lblOverloaded);
-		
+
 		TitledBorder borderFacultyDetails = BorderFactory.createTitledBorder(lowerEtched, "Faculty Details");
 		pnlFacultyDetails.setBorder(borderFacultyDetails);
 		pnlFacultyDetails.setToolTipText("Faculty Details");
-		
+
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 0;
 		c.gridy = 0;
@@ -305,7 +309,7 @@ public class InstructorAssignmentPanel  extends JPanel implements ActionListener
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
 		c.fill = GridBagConstraints.BOTH;
 		add(scrollCatalog, c);
-		
+
 		c.gridx = 0;
 		c.gridy = 1;
 		c.gridwidth = 2;
@@ -315,7 +319,7 @@ public class InstructorAssignmentPanel  extends JPanel implements ActionListener
 		c.anchor = GridBagConstraints.LINE_START;
 		c.fill = GridBagConstraints.BOTH;
 		add(scrollFaculty, c);
-		
+
 		c.gridx = 0;
 		c.gridy = 2;
 		c.gridwidth = 2;
@@ -324,7 +328,7 @@ public class InstructorAssignmentPanel  extends JPanel implements ActionListener
 		c.anchor = GridBagConstraints.LINE_START;
 		c.fill = GridBagConstraints.BOTH;
 		add(pnlActions, c);
-		
+
 		c.gridx = 0;
 		c.gridy = 3;
 		c.gridwidth = 1;
@@ -333,7 +337,7 @@ public class InstructorAssignmentPanel  extends JPanel implements ActionListener
 		c.anchor = GridBagConstraints.LINE_START;
 		c.fill = GridBagConstraints.BOTH;
 		add(pnlCourseDetails, c);
-		
+
 		c.gridx = 1;
 		c.gridy = 3;
 		c.gridwidth = 1;
@@ -346,6 +350,7 @@ public class InstructorAssignmentPanel  extends JPanel implements ActionListener
 
 	/**
 	 * Performs an action based on the given {@link ActionEvent}.
+	 * 
 	 * @param e user event that triggers an action.
 	 */
 	public void actionPerformed(ActionEvent e) {
@@ -358,9 +363,10 @@ public class InstructorAssignmentPanel  extends JPanel implements ActionListener
 				JOptionPane.showMessageDialog(this, "No faculty selected in the directory.");
 			} else {
 				try {
-					Course c = catalog.getCourseFromCatalog(tableCatalog.getValueAt(catalogRow, 0).toString(), tableCatalog.getValueAt(catalogRow, 1).toString());
+					Course c = catalog.getCourseFromCatalog(tableCatalog.getValueAt(catalogRow, 0).toString(),
+							tableCatalog.getValueAt(catalogRow, 1).toString());
 					Faculty f = facultyDirectory.getFacultyById(tableFaculty.getValueAt(facultyRow, 2).toString());
-					
+
 					if (!RegistrationManager.getInstance().addFacultyToCourse(c, f)) {
 						JOptionPane.showMessageDialog(this, "Course cannot be added to faculty's schedule.");
 					}
@@ -379,9 +385,10 @@ public class InstructorAssignmentPanel  extends JPanel implements ActionListener
 			} else if (facultyRow == -1) {
 				JOptionPane.showMessageDialog(this, "No faculty selected in the directory.");
 			} else {
-				Course c = catalog.getCourseFromCatalog(tableCatalog.getValueAt(catalogRow, 0).toString(), tableCatalog.getValueAt(catalogRow, 1).toString());
+				Course c = catalog.getCourseFromCatalog(tableCatalog.getValueAt(catalogRow, 0).toString(),
+						tableCatalog.getValueAt(catalogRow, 1).toString());
 				Faculty f = facultyDirectory.getFacultyById(tableFaculty.getValueAt(facultyRow, 2).toString());
-				
+
 				if (!RegistrationManager.getInstance().removeFacultyFromCourse(c, f)) {
 					JOptionPane.showMessageDialog(this, "Course cannot be removed from faculty's schedule.");
 				}
@@ -398,12 +405,12 @@ public class InstructorAssignmentPanel  extends JPanel implements ActionListener
 				RegistrationManager.getInstance().resetFacultySchedule(f);
 				updateTables();
 			}
-		} 
-		
+		}
+
 		this.repaint();
 		this.validate();
 	}
-	
+
 	/**
 	 * Updates the catalog and schedule tables.
 	 */
@@ -411,10 +418,11 @@ public class InstructorAssignmentPanel  extends JPanel implements ActionListener
 		catalogTableModel.updateData();
 		facultyTableModel.updateData();
 	}
-	
+
 	/**
-	 * Updates the pnlCourseDetails with full information about the most
-	 * recently selected course.
+	 * Updates the pnlCourseDetails with full information about the most recently
+	 * selected course.
+	 * 
 	 * @param c most recently selected course
 	 */
 	private void updateCourseDetails(Course c) {
@@ -429,10 +437,11 @@ public class InstructorAssignmentPanel  extends JPanel implements ActionListener
 			lblOpenSeats.setText("" + c.getCourseRoll().getOpenSeats());
 		}
 	}
-	
+
 	/**
-	 * Updates the pnlFacultyDetails with full information about the most
-	 * recently selected faculty.
+	 * Updates the pnlFacultyDetails with full information about the most recently
+	 * selected faculty.
+	 * 
 	 * @param f most recently selected faculty
 	 */
 	private void updateFacultyDetails(Faculty f) {
@@ -445,24 +454,25 @@ public class InstructorAssignmentPanel  extends JPanel implements ActionListener
 			lblOverloaded.setText("" + f.isOverloaded());
 		}
 	}
-	
+
 	/**
-	 * {@link CourseCatalogTableModel} is the object underlying the {@link JTable} object that displays
-	 * the list of Courses to the user.
+	 * {@link CourseCatalogTableModel} is the object underlying the {@link JTable}
+	 * object that displays the list of Courses to the user.
+	 * 
 	 * @author Sarah Heckman
 	 */
 	private class CourseCatalogTableModel extends AbstractTableModel {
-		
+
 		/** ID number used for object serialization. */
 		private static final long serialVersionUID = 1L;
 		/** Column names for the table */
-		private String [] columnNames = {"Name", "Section", "Title", "Meeting Information", "Open Seats"};
+		private String[] columnNames = { "Name", "Section", "Title", "Meeting Information", "Open Seats" };
 		/** Data stored in the table */
-		private Object [][] data;
-		
+		private Object[][] data;
+
 		/**
-		 * Constructs the {@link CourseCatalogTableModel} by requesting the latest information
-		 * from the {@link RequirementTrackerModel}.
+		 * Constructs the {@link CourseCatalogTableModel} by requesting the latest
+		 * information from the {@link RequirementTrackerModel}.
 		 */
 		public CourseCatalogTableModel() {
 			updateData();
@@ -470,6 +480,7 @@ public class InstructorAssignmentPanel  extends JPanel implements ActionListener
 
 		/**
 		 * Returns the number of columns in the table.
+		 * 
 		 * @return the number of columns in the table.
 		 */
 		public int getColumnCount() {
@@ -478,16 +489,18 @@ public class InstructorAssignmentPanel  extends JPanel implements ActionListener
 
 		/**
 		 * Returns the number of rows in the table.
+		 * 
 		 * @return the number of rows in the table.
 		 */
 		public int getRowCount() {
-			if (data == null) 
+			if (data == null)
 				return 0;
 			return data.length;
 		}
-		
+
 		/**
 		 * Returns the column name at the given index.
+		 * 
 		 * @return the column name at the given column.
 		 */
 		public String getColumnName(int col) {
@@ -496,6 +509,7 @@ public class InstructorAssignmentPanel  extends JPanel implements ActionListener
 
 		/**
 		 * Returns the data at the given {row, col} index.
+		 * 
 		 * @return the data at the given location.
 		 */
 		public Object getValueAt(int row, int col) {
@@ -503,43 +517,46 @@ public class InstructorAssignmentPanel  extends JPanel implements ActionListener
 				return null;
 			return data[row][col];
 		}
-		
+
 		/**
 		 * Sets the given value to the given {row, col} location.
-		 * @param value Object to modify in the data.
-		 * @param row location to modify the data.
+		 * 
+		 * @param value  Object to modify in the data.
+		 * @param row    location to modify the data.
 		 * @param column location to modify the data.
 		 */
 		public void setValueAt(Object value, int row, int col) {
 			data[row][col] = value;
 			fireTableCellUpdated(row, col);
 		}
-		
+
 		/**
-		 * Updates the given model with {@link Course} information from the {@link CourseCatalog}.
+		 * Updates the given model with {@link Course} information from the
+		 * {@link CourseCatalog}.
 		 */
 		public void updateData() {
 			data = catalog.getCourseCatalog();
 		}
 	}
-	
+
 	/**
-	 * {@link FacultyDirectoryTableModel} is the object underlying the {@link JTable} object that displays
-	 * the list of Faculty to the system.
+	 * {@link FacultyDirectoryTableModel} is the object underlying the
+	 * {@link JTable} object that displays the list of Faculty to the system.
+	 * 
 	 * @author Sarah Heckman
 	 */
 	private class FacultyDirectoryTableModel extends AbstractTableModel {
-		
+
 		/** ID number used for object serialization. */
 		private static final long serialVersionUID = 1L;
 		/** Column names for the table */
-		private String [] columnNames = {"First Name", "Last Name", "Faculty ID"};
+		private String[] columnNames = { "First Name", "Last Name", "Faculty ID" };
 		/** Data stored in the table */
-		private Object [][] data;
-		
+		private Object[][] data;
+
 		/**
-		 * Constructs the {@link FacultyDirectoryTableModel} by requesting the latest information
-		 * from the {@link RequirementTrackerModel}.
+		 * Constructs the {@link FacultyDirectoryTableModel} by requesting the latest
+		 * information from the {@link RequirementTrackerModel}.
 		 */
 		public FacultyDirectoryTableModel() {
 			updateData();
@@ -547,6 +564,7 @@ public class InstructorAssignmentPanel  extends JPanel implements ActionListener
 
 		/**
 		 * Returns the number of columns in the table.
+		 * 
 		 * @return the number of columns in the table.
 		 */
 		public int getColumnCount() {
@@ -555,16 +573,18 @@ public class InstructorAssignmentPanel  extends JPanel implements ActionListener
 
 		/**
 		 * Returns the number of rows in the table.
+		 * 
 		 * @return the number of rows in the table.
 		 */
 		public int getRowCount() {
-			if (data == null) 
+			if (data == null)
 				return 0;
 			return data.length;
 		}
-		
+
 		/**
 		 * Returns the column name at the given index.
+		 * 
 		 * @return the column name at the given column.
 		 */
 		public String getColumnName(int col) {
@@ -573,6 +593,7 @@ public class InstructorAssignmentPanel  extends JPanel implements ActionListener
 
 		/**
 		 * Returns the data at the given {row, col} index.
+		 * 
 		 * @return the data at the given location.
 		 */
 		public Object getValueAt(int row, int col) {
@@ -580,20 +601,22 @@ public class InstructorAssignmentPanel  extends JPanel implements ActionListener
 				return null;
 			return data[row][col];
 		}
-		
+
 		/**
 		 * Sets the given value to the given {row, col} location.
-		 * @param value Object to modify in the data.
-		 * @param row location to modify the data.
+		 * 
+		 * @param value  Object to modify in the data.
+		 * @param row    location to modify the data.
 		 * @param column location to modify the data.
 		 */
 		public void setValueAt(Object value, int row, int col) {
 			data[row][col] = value;
 			fireTableCellUpdated(row, col);
 		}
-		
+
 		/**
-		 * Updates the given model with {@link Faculty} information from the {@link FacultyDirectory}.
+		 * Updates the given model with {@link Faculty} information from the
+		 * {@link FacultyDirectory}.
 		 */
 		public void updateData() {
 			data = facultyDirectory.getFacultyDirectory();
