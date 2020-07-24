@@ -1,6 +1,3 @@
-/**
- * 
- */
 package edu.ncsu.csc216.pack_scheduler.ui;
 
 import java.awt.Dimension;
@@ -29,44 +26,38 @@ import javax.swing.table.AbstractTableModel;
 
 import edu.ncsu.csc216.pack_scheduler.catalog.CourseCatalog;
 import edu.ncsu.csc216.pack_scheduler.course.Course;
+import edu.ncsu.csc216.pack_scheduler.course.roll.CourseRoll;
+import edu.ncsu.csc216.pack_scheduler.directory.StudentDirectory;
 import edu.ncsu.csc216.pack_scheduler.manager.RegistrationManager;
+import edu.ncsu.csc216.pack_scheduler.ui.StudentDirectoryPanel.StudentDirectoryTableModel;
 import edu.ncsu.csc216.pack_scheduler.user.Faculty;
 import edu.ncsu.csc216.pack_scheduler.user.Student;
 import edu.ncsu.csc216.pack_scheduler.user.schedule.FacultySchedule;
 import edu.ncsu.csc216.pack_scheduler.user.schedule.Schedule;
 
 /**
+ * Creates a user interface for working with the FacultySchedule.
+ * 
  * @author Raymond Dong
- *
+ * @author Ethan Taylor
  */
-public class FacultySchedulePanel implements ActionListener {
-
+public class FacultySchedulePanel extends JPanel implements ActionListener {
+	
     /** ID number used for object serialization. */
     private static final long serialVersionUID = 1L;
-    /** Button for adding the selected course in the catalog to the schedule */
-    private JButton btnAddCourse;
-    /** Button for removing the selected Course from the schedule */
-    private JButton btnRemoveCourse;
-    /** Button for resetting the schedule */
-    private JButton btnReset;
-    /** Button for displaying the final schedule */
-    private JButton btnDisplay;
-    /** JTable for displaying the catalog of Courses */
-    private JTable tableCatalog;
+
     /** JTable for displaying the schedule of Courses */
     private JTable tableSchedule;
-    /** TableModel for catalog */
-    private CourseTableModel catalogTableModel;
+    /** JTable for displaying the roll of Students */
+    private JTable tableRoll;
     /** TableModel for schedule */
-    private CourseTableModel scheduleTableModel;
-    /** Student's Schedule title label */
-    private JLabel lblScheduleTitle;
-    /** Student's Schedule text field */
-    private JTextField txtScheduleTitle;
-    /** Button for setting student's schedule title */
-    private JButton btnSetScheduleTitle;
-    /** Scroll for student schedule */
-    private JScrollPane scrollSchedule;
+    private ScheduleTableModel scheduleTableModel;
+    /** TableModel for roll of Students */
+	private StudentRollTableModel studentRollTableModel;
+	/** Scroll for student schedule */
+	private JScrollPane scrollSchedule;
+    /** Scroll pane for table */
+	private JScrollPane scrollStudentRoll;
     /** Border for Schedule */
     private TitledBorder borderSchedule;
     /** Panel for displaying Course Details */
@@ -88,7 +79,7 @@ public class FacultySchedulePanel implements ActionListener {
     /** Label for Course Details open seats title */
     private JLabel lblOpenSeatsTitle = new JLabel("Open Seats: ");
     /** Label for Course Details waitlist title */
-    private JLabel lblWaitlistTitle = new JLabel("Number on Waitlist: ");
+    private JLabel lblWaitlistTitle = new JLabel("Waitlist: ");
     /** Label for Course Details name */
     private JLabel lblName = new JLabel("");
     /** Label for Course Details section */
@@ -109,10 +100,12 @@ public class FacultySchedulePanel implements ActionListener {
     private JLabel lblWaitlist = new JLabel("");
     /** Current user */
     private Faculty currentUser;
-    /** Course catalog */
-    private CourseCatalog catalog;
+    /** Course Roll */
+    private CourseRoll roll;
     /** Current user's schedule */
     private FacultySchedule schedule;
+    /** Student Directory */
+    private StudentDirectory studentDirectory;
     
     
     /**
@@ -122,37 +115,37 @@ public class FacultySchedulePanel implements ActionListener {
         super(new GridBagLayout());
         
         RegistrationManager manager = RegistrationManager.getInstance();
-        currentUser = (Faculty)manager.getCurrentUser();
+        currentUser = (Faculty) manager.getCurrentUser();
         catalog = manager.getCourseCatalog();
         
         
-        JPanel pnlActions = new JPanel();
-        pnlActions.setLayout(new GridLayout(3, 1));
-        JPanel pnlAddRemove = new JPanel();
-        pnlAddRemove.setLayout(new GridLayout(1, 2));
-        pnlAddRemove.add(btnAddCourse);
-        pnlAddRemove.add(btnRemoveCourse);
-        JPanel pnlResetDisplay = new JPanel();
-        pnlResetDisplay.setLayout(new GridLayout(1, 2));
-        pnlResetDisplay.add(btnReset);
-        pnlResetDisplay.add(btnDisplay);
-        JPanel pnlScheduleTitle = new JPanel();
-        pnlScheduleTitle.setLayout(new GridLayout(1, 3));
-        pnlScheduleTitle.add(lblScheduleTitle);
-        pnlScheduleTitle.add(txtScheduleTitle);
-        pnlScheduleTitle.add(btnSetScheduleTitle);
-        pnlActions.add(pnlAddRemove);
-        pnlActions.add(pnlResetDisplay);
-        pnlActions.add(pnlScheduleTitle);
-        
+//        JPanel pnlActions = new JPanel();
+//        pnlActions.setLayout(new GridLayout(3, 1));
+//        JPanel pnlAddRemove = new JPanel();
+//        pnlAddRemove.setLayout(new GridLayout(1, 2));
+//        pnlAddRemove.add(btnAddCourse);
+//        pnlAddRemove.add(btnRemoveCourse);
+//        JPanel pnlResetDisplay = new JPanel();
+//        pnlResetDisplay.setLayout(new GridLayout(1, 2));
+//        pnlResetDisplay.add(btnReset);
+//        pnlResetDisplay.add(btnDisplay);
+//        JPanel pnlScheduleTitle = new JPanel();
+//        pnlScheduleTitle.setLayout(new GridLayout(1, 3));
+//        pnlScheduleTitle.add(lblScheduleTitle);
+//        pnlScheduleTitle.add(txtScheduleTitle);
+//        pnlScheduleTitle.add(btnSetScheduleTitle);
+//        pnlActions.add(pnlAddRemove);
+//        pnlActions.add(pnlResetDisplay);
+//        pnlActions.add(pnlScheduleTitle);
+//        
         Border lowerEtched = BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
-        TitledBorder borderActions = BorderFactory.createTitledBorder(lowerEtched, "Actions");
-        pnlActions.setBorder(borderActions);
-        pnlActions.setToolTipText("Scheduler Actions");
+//        TitledBorder borderActions = BorderFactory.createTitledBorder(lowerEtched, "Actions");
+//        pnlActions.setBorder(borderActions);
+//        pnlActions.setToolTipText("Scheduler Actions");
                     
-        //Set up Catalog table
-        catalogTableModel = new CourseTableModel(true);
-        tableCatalog = new JTable(catalogTableModel) {
+        //Set up FacultySchedule table
+        scheduleTableModel = new ScheduleTableModel();
+        tableSchedule = new JTable(scheduleTableModel) {
             private static final long serialVersionUID = 1L;
             
             /**
@@ -166,32 +159,32 @@ public class FacultySchedulePanel implements ActionListener {
                 int colIndex = columnAtPoint(p);
                 int realColumnIndex = convertColumnIndexToModel(colIndex);
                 
-                return (String)catalogTableModel.getValueAt(rowIndex, realColumnIndex);
+                return (String) scheduleTableModel.getValueAt(rowIndex, realColumnIndex);
             }
         };
-        tableCatalog.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        tableCatalog.setPreferredScrollableViewportSize(new Dimension(500, 500));
-        tableCatalog.setFillsViewportHeight(true);
-        tableCatalog.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+        tableSchedule.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        tableSchedule.setPreferredScrollableViewportSize(new Dimension(500, 500));
+        tableSchedule.setFillsViewportHeight(true);
+        tableSchedule.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                String name = tableCatalog.getValueAt(tableCatalog.getSelectedRow(), 0).toString();
-                String section = tableCatalog.getValueAt(tableCatalog.getSelectedRow(), 1).toString();
+                String name = tableSchedule.getValueAt(tableSchedule.getSelectedRow(), 0).toString();
+                String section = tableSchedule.getValueAt(tableSchedule.getSelectedRow(), 1).toString();
                 Course c = catalog.getCourseFromCatalog(name, section);
                 updateCourseDetails(c);
             }
             
         });
         
-        JScrollPane scrollCatalog = new JScrollPane(tableCatalog, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        scrollSchedule = new JScrollPane(tableSchedule, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         
-        TitledBorder borderCatalog = BorderFactory.createTitledBorder(lowerEtched, "Course Catalog");
-        scrollCatalog.setBorder(borderCatalog);
-        scrollCatalog.setToolTipText("Course Catalog");
+        borderSchedule = BorderFactory.createTitledBorder(lowerEtched, "Faculty Schedule");
+        scrollSchedule.setBorder(borderSchedule);
+        scrollSchedule.setToolTipText("Faculty Schedule");
         
         //Set up Schedule table
-        scheduleTableModel = new CourseTableModel(false);
+        scheduleTableModel = new ScheduleTableModel();
         tableSchedule = new JTable(scheduleTableModel);
         tableSchedule.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         tableSchedule.setPreferredScrollableViewportSize(new Dimension(500, 500));
@@ -257,7 +250,7 @@ public class FacultySchedulePanel implements ActionListener {
         c.weighty = 1;
         c.anchor = GridBagConstraints.FIRST_LINE_START;
         c.fill = GridBagConstraints.BOTH;
-        add(scrollCatalog, c);
+        add(scrollSchedule, c);
         
         c.gridx = 0;
         c.gridy = 1;
@@ -266,7 +259,7 @@ public class FacultySchedulePanel implements ActionListener {
         c.weighty = 1;
         c.anchor = GridBagConstraints.FIRST_LINE_START;
         c.fill = GridBagConstraints.BOTH;
-        add(pnlActions, c);
+        add(pnlCourseDetails, c);
         
         c.gridx = 0;
         c.gridy = 2;
@@ -275,16 +268,9 @@ public class FacultySchedulePanel implements ActionListener {
         c.weighty = 1;
         c.anchor = GridBagConstraints.FIRST_LINE_START;
         c.fill = GridBagConstraints.BOTH;
-        add(scrollSchedule, c);
+        add(scrollStudentRoll, c);
         
-        c.gridx = 0;
-        c.gridy = 3;
-        c.gridwidth = 1;
-        c.weightx = 1;
-        c.weighty = 1;
-        c.anchor = GridBagConstraints.FIRST_LINE_START;
-        c.fill = GridBagConstraints.BOTH;
-        add(pnlCourseDetails, c);
+       
     }
 
     /**
@@ -292,41 +278,41 @@ public class FacultySchedulePanel implements ActionListener {
      * @param e user event that triggers an action.
      */
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == btnAddCourse) {
-            int row = tableCatalog.getSelectedRow();
-            if (row == -1) {
-                JOptionPane.showMessageDialog(this, "No course selected in the catalog.");
-            } else {
-                try {
-                    if (!RegistrationManager.getInstance().enrollStudentInCourse(catalog.getCourseFromCatalog(tableCatalog.getValueAt(row, 0).toString(), tableCatalog.getValueAt(row, 1).toString()))) {
-                        JOptionPane.showMessageDialog(this, "Course cannot be added to schedule.");
-                    }
-                } catch (IllegalArgumentException iae) {
-                    JOptionPane.showMessageDialog(this, iae.getMessage());
-                }
-            }
-            updateTables();
-        } else if (e.getSource() == btnRemoveCourse) {
-            int row = tableSchedule.getSelectedRow();
-            if (row == -1) {
-                JOptionPane.showMessageDialog(this, "No item selected in the schedule.");
-            } else {
-                if (!RegistrationManager.getInstance().dropStudentFromCourse(catalog.getCourseFromCatalog(tableSchedule.getValueAt(row, 0).toString(), tableSchedule.getValueAt(row, 1).toString()))) {
-                    JOptionPane.showMessageDialog(this, "Cannot drop student from " + tableSchedule.getValueAt(row, 0).toString());
-                }
-            }
-            updateTables();
-        } else if (e.getSource() == btnReset) {
-            RegistrationManager.getInstance().resetSchedule();
-            updateTables();
-        } else if (e.getSource() == btnSetScheduleTitle) {
-            try {
-                schedule.setTitle(txtScheduleTitle.getText()); 
-            } catch (IllegalArgumentException iae) {
-                JOptionPane.showMessageDialog(this, "Invalid title.");
-            }
-            borderSchedule.setTitle(schedule.getTitle());
-        }
+//        if (e.getSource() == btnAddCourse) {
+//            int row = tableCatalog.getSelectedRow();
+//            if (row == -1) {
+//                JOptionPane.showMessageDialog(this, "No course selected in the catalog.");
+//            } else {
+//                try {
+//                    if (!RegistrationManager.getInstance().enrollStudentInCourse(catalog.getCourseFromCatalog(tableCatalog.getValueAt(row, 0).toString(), tableCatalog.getValueAt(row, 1).toString()))) {
+//                        JOptionPane.showMessageDialog(this, "Course cannot be added to schedule.");
+//                    }
+//                } catch (IllegalArgumentException iae) {
+//                    JOptionPane.showMessageDialog(this, iae.getMessage());
+//                }
+//            }
+//            updateTables();
+//        } else if (e.getSource() == btnRemoveCourse) {
+//            int row = tableSchedule.getSelectedRow();
+//            if (row == -1) {
+//                JOptionPane.showMessageDialog(this, "No item selected in the schedule.");
+//            } else {
+//                if (!RegistrationManager.getInstance().dropStudentFromCourse(catalog.getCourseFromCatalog(tableSchedule.getValueAt(row, 0).toString(), tableSchedule.getValueAt(row, 1).toString()))) {
+//                    JOptionPane.showMessageDialog(this, "Cannot drop student from " + tableSchedule.getValueAt(row, 0).toString());
+//                }
+//            }
+//            updateTables();
+//        } else if (e.getSource() == btnReset) {
+//            RegistrationManager.getInstance().resetSchedule();
+//            updateTables();
+//        } else if (e.getSource() == btnSetScheduleTitle) {
+//            try {
+//                schedule.setTitle(txtScheduleTitle.getText()); 
+//            } catch (IllegalArgumentException iae) {
+//                JOptionPane.showMessageDialog(this, "Invalid title.");
+//            }
+//            borderSchedule.setTitle(schedule.getTitle());
+//        }
         
         this.repaint();
         this.validate();
@@ -336,7 +322,7 @@ public class FacultySchedulePanel implements ActionListener {
      * Updates the catalog and schedule tables.
      */
     public void updateTables() {
-        catalogTableModel.updateData();
+        studentRollTableModel.updateData(course);
         scheduleTableModel.updateData();
     }
     
@@ -359,11 +345,11 @@ public class FacultySchedulePanel implements ActionListener {
     }
     
     /**
-     * {@link CourseTableModel} is the object underlying the {@link JTable} object that displays
+     * {@link ScheduleTableModel} is the object underlying the {@link JTable} object that displays
      * the list of {@link Course}s to the user.
      * @author Sarah Heckman
      */
-    private class CourseTableModel extends AbstractTableModel {
+    private class ScheduleTableModel extends AbstractTableModel {
         
         /** ID number used for object serialization. */
         private static final long serialVersionUID = 1L;
@@ -371,15 +357,12 @@ public class FacultySchedulePanel implements ActionListener {
         private String [] columnNames = {"Name", "Section", "Title", "Meeting Days", "Open Seats"};
         /** Data stored in the table */
         private Object [][] data;
-        /** Boolean flag if the model applies to the catalog or schedule */
-        private boolean isCatalog;
         
         /**
          * Constructs the {@link CourseTableModel} by requesting the latest information
          * from the {@link RequirementTrackerModel}.
          */
-        public CourseTableModel(boolean isCatalog) {
-            this.isCatalog = isCatalog;
+        public ScheduleTableModel() {
             updateData();
         }
 
@@ -434,20 +417,106 @@ public class FacultySchedulePanel implements ActionListener {
          * Updates the given model with {@link Course} information from the {@link WolfScheduler}.
          */
         private void updateData() {
-            if (isCatalog) {
-                data = catalog.getCourseCatalog();
-            } else {
-                currentUser = (Faculty)RegistrationManager.getInstance().getCurrentUser();
-                if (currentUser != null) {
-                    schedule = currentUser.getSchedule();
-                    data = schedule.getScheduledCourses();
-                    
-                    FacultySchedulePanel.this.repaint();
-                    FacultySchedulePanel.this.validate();
-                }
+        	currentUser = (Faculty) RegistrationManager.getInstance().getCurrentUser();
+        	if (currentUser != null) {
+        		schedule = currentUser.getSchedule();
+        		data = schedule.getScheduledCourses();
+
+        		FacultySchedulePanel.this.repaint();
+        		FacultySchedulePanel.this.validate();
+
             }
         }
     }
 
+	/**
+	 * {@link StudentRollTableModel} is the object underlying the {@link JTable} object that displays
+	 * the list of Students to the user.
+	 * @author Sarah Heckman
+	 */
+	private class StudentRollTableModel extends AbstractTableModel {
+		
+		/** ID number used for object serialization. */
+		private static final long serialVersionUID = 1L;
+		/** Column names for the table */
+		private String [] columnNames = {"First Name", "Last Name", "Student ID"};
+		/** Data stored in the table */
+		private Object [][] data;
+		
+		/**
+		 * Constructs the {@link StudentRollTableModel} by requesting the latest information
+		 * from the {@link RequirementTrackerModel}.
+		 */
+		public StudentRollTableModel(Course course) {
+			updateData(course);
+		}
 
+		/**
+		 * Returns the number of columns in the table.
+		 * @return the number of columns in the table.
+		 */
+		public int getColumnCount() {
+			return columnNames.length;
+		}
+
+		/**
+		 * Returns the number of rows in the table.
+		 * @return the number of rows in the table.
+		 */
+		public int getRowCount() {
+			if (data == null) 
+				return 0;
+			return data.length;
+		}
+		
+		/**
+		 * Returns the column name at the given index.
+		 * @return the column name at the given column.
+		 */
+		public String getColumnName(int col) {
+			return columnNames[col];
+		}
+
+		/**
+		 * Returns the data at the given {row, col} index.
+		 * @return the data at the given location.
+		 */
+		public Object getValueAt(int row, int col) {
+			if (data == null)
+				return null;
+			return data[row][col];
+		}
+		
+		/**
+		 * Sets the given value to the given {row, col} location.
+		 * @param value Object to modify in the data.
+		 * @param row location to modify the data.
+		 * @param column location to modify the data.
+		 */
+		public void setValueAt(Object value, int row, int col) {
+			data[row][col] = value;
+			fireTableCellUpdated(row, col);
+		}
+		
+		/**
+		 * Updates the given model with {@link Student} information from the {@link CourseRoll}.
+		 */
+		public void updateData(Course course) {
+			int dataIndex = 0;
+			studentDirectory = RegistrationManager.getInstance().getStudentDirectory();
+        	for (int i = 0; i < studentDirectory.getStudentDirectory().length; i++) {
+        		Student student = studentDirectory.getStudentById(studentDirectory.getStudentDirectory()[i][2]);
+        		scheduleLoop:
+        		for (int j = 0; j < student.getSchedule().getScheduledCourses().length; j++) {
+        			if (student.getSchedule().getScheduledCourses()[j][0].equals(course.getName())
+        					&& student.getSchedule().getScheduledCourses()[j][1].equals(course.getSection())) {
+        				data[dataIndex] = studentDirectory.getStudentDirectory()[i];
+        				break scheduleLoop;
+        			}
+        		}
+            }
+        	FacultySchedulePanel.this.repaint();
+    		FacultySchedulePanel.this.validate();
+		}
+	}
 }
