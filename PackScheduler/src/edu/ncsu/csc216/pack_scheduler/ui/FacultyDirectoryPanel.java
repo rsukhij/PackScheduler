@@ -221,6 +221,9 @@ public class FacultyDirectoryPanel extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btnLoadFacultyList) {
             String fileName = getFileName(true);
+            if(fileName == null) {
+            	return;
+            }
             try {
                 facultyDirectory.loadFacultyFromFile(fileName);
                 facultyDirectoryTableModel.updateData();
@@ -320,8 +323,7 @@ public class FacultyDirectoryPanel extends JPanel implements ActionListener {
             returnVal = fc.showSaveDialog(this);
         }
         if (returnVal != JFileChooser.APPROVE_OPTION) {
-            //Error or user canceled, either way no file name.
-            throw new IllegalStateException();
+            return null;
         }
         File catalogFile = fc.getSelectedFile();
         return catalogFile.getAbsolutePath();

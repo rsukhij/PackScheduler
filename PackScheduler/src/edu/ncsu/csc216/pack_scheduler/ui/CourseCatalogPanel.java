@@ -346,6 +346,9 @@ public class CourseCatalogPanel extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnLoadCourseCatalog) {
 			String fileName = getFileName(true);
+			if(fileName == null) {
+				return; 
+			}
 			try {
 				catalog.loadCoursesFromFile(fileName);
 				courseCatalogTableModel.updateData();
@@ -499,8 +502,7 @@ public class CourseCatalogPanel extends JPanel implements ActionListener {
 			returnVal = fc.showSaveDialog(this);
 		}
 		if (returnVal != JFileChooser.APPROVE_OPTION) {
-			//Error or user canceled, either way no file name.
-			throw new IllegalStateException();
+			return null;
 		}
 		File catalogFile = fc.getSelectedFile();
 		return catalogFile.getAbsolutePath();
