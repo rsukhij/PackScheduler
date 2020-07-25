@@ -103,9 +103,7 @@ public class FacultySchedulePanel extends JPanel implements ActionListener {
     /** Current user's schedule */
     private FacultySchedule schedule;
     /** Student Directory */
-    private StudentDirectory studentDirectory;
-    /** The position on a faculty schedule list that is selected */
-    private int selectedCourseRow;
+    
     
     
     /**
@@ -499,7 +497,7 @@ public class FacultySchedulePanel extends JPanel implements ActionListener {
 		 * from the {@link RequirementTrackerModel}.
 		 */
 		public StudentRollTableModel() {
-
+			//instantiates studentrolltable model
 		}
 
 		/**
