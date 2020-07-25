@@ -96,4 +96,11 @@ public class FacultySchedule {
         return schedule.size();
     }
     
+    /**
+     * Returns the schedule
+     * @return the schedule
+     */
+    public Course getCourse(int i){
+        return schedule.get(i);
+    }
 }

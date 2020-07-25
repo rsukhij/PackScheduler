@@ -56,6 +56,8 @@ public class FacultySchedulePanel extends JPanel implements ActionListener {
 	private JScrollPane scrollStudentRoll;
     /** Border for Schedule */
     private TitledBorder borderSchedule;
+    /** Border for StudentRoll */
+    private TitledBorder borderStudentRoll;
     /** Panel for displaying Course Details */
     private JPanel pnlCourseDetails;
     /** Label for Course Details name title */
@@ -102,6 +104,8 @@ public class FacultySchedulePanel extends JPanel implements ActionListener {
     private FacultySchedule schedule;
     /** Student Directory */
     private StudentDirectory studentDirectory;
+    /** The position on a faculty schedule list that is selected */
+    private int selectedCourseRow;
     
     
     /**
@@ -165,6 +169,7 @@ public class FacultySchedulePanel extends JPanel implements ActionListener {
 
             @Override
             public void valueChanged(ListSelectionEvent e) {
+                selectedCourseRow = tableSchedule.getSelectedRow();
                 String name = tableSchedule.getValueAt(tableSchedule.getSelectedRow(), 0).toString();
                 String section = tableSchedule.getValueAt(tableSchedule.getSelectedRow(), 1).toString();
                 Course c = catalog.getCourseFromCatalog(name, section);
@@ -173,11 +178,35 @@ public class FacultySchedulePanel extends JPanel implements ActionListener {
             
         });
         
+        //Set up CourseRoll table
+        studentRollTableModel = new StudentRollTableModel(selectedCourseRow);
+        tableRoll = new JTable(studentRollTableModel) {
+            private static final long serialVersionUID = 1L;
+            
+            /**
+             * Set custom tool tips for cells
+             * @param e MouseEvent that causes the tool tip
+             * @return tool tip text
+             */
+            public String getToolTipText(MouseEvent e) {
+                java.awt.Point p = e.getPoint();
+                int rowIndex = rowAtPoint(p);
+                int colIndex = columnAtPoint(p);
+                int realColumnIndex = convertColumnIndexToModel(colIndex);
+                
+                return (String) studentRollTableModel.getValueAt(rowIndex, realColumnIndex);
+            }
+            
+        };
+        
         scrollSchedule = new JScrollPane(tableSchedule, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollStudentRoll = new JScrollPane(tableSchedule, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         borderSchedule = BorderFactory.createTitledBorder(lowerEtched, "Faculty Schedule");
         scrollSchedule.setBorder(borderSchedule);
         scrollSchedule.setToolTipText("Faculty Schedule");
+        borderStudentRoll = BorderFactory.createTitledBorder(lowerEtched, "Course Roll");
+        scrollStudentRoll.setBorder(borderStudentRoll);
+        scrollStudentRoll.setToolTipText("Course Roll");
         
         //Set up Schedule table
         scheduleTableModel = new ScheduleTableModel();
@@ -191,6 +220,17 @@ public class FacultySchedulePanel extends JPanel implements ActionListener {
         borderSchedule = BorderFactory.createTitledBorder(lowerEtched, "");
         scrollSchedule.setBorder(borderSchedule);
         
+        //Set up Student Roll table
+        studentRollTableModel = new StudentRollTableModel(selectedCourseRow);
+        tableRoll = new JTable(studentRollTableModel);
+        tableRoll.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        tableRoll.setPreferredScrollableViewportSize(new Dimension(500, 500));
+        tableRoll.setFillsViewportHeight(true);
+        
+        scrollStudentRoll = new JScrollPane(tableRoll, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        
+        borderStudentRoll = BorderFactory.createTitledBorder(lowerEtched, "");
+        scrollStudentRoll.setBorder(borderStudentRoll);
         
         updateTables();
         
@@ -329,6 +369,7 @@ public class FacultySchedulePanel extends JPanel implements ActionListener {
      */
     public void updateTables() {
         scheduleTableModel.updateData();
+        studentRollTableModel.updateData(selectedCourseRow);
        
     }
     
@@ -454,8 +495,8 @@ public class FacultySchedulePanel extends JPanel implements ActionListener {
 		 * Constructs the {@link StudentRollTableModel} by requesting the latest information
 		 * from the {@link RequirementTrackerModel}.
 		 */
-		public StudentRollTableModel(Course course) {
-			updateData(course);
+		public StudentRollTableModel(int i) {
+			updateData(i);
 		}
 
 		/**
@@ -508,22 +549,15 @@ public class FacultySchedulePanel extends JPanel implements ActionListener {
 		/**
 		 * Updates the given model with {@link Student} information from the {@link CourseRoll}.
 		 */
-		public void updateData(Course course) {
-			int dataIndex = 0;
-			studentDirectory = RegistrationManager.getInstance().getStudentDirectory();
-        	for (int i = 0; i < studentDirectory.getStudentDirectory().length; i++) {
-        		Student student = studentDirectory.getStudentById(studentDirectory.getStudentDirectory()[i][2]);
-        		scheduleLoop:
-        		for (int j = 0; j < student.getSchedule().getScheduledCourses().length; j++) {
-        			if (student.getSchedule().getScheduledCourses()[j][0].equals(course.getName())
-        					&& student.getSchedule().getScheduledCourses()[j][1].equals(course.getSection())) {
-        				data[dataIndex] = studentDirectory.getStudentDirectory()[i];
-        				break scheduleLoop;
-        			}
-        		}
+		public void updateData(int i) {
+		    currentUser = (Faculty) RegistrationManager.getInstance().getCurrentUser();
+            if(currentUser != null) {
+                roll = currentUser.getSchedule().getCourse(i).getCourseRoll();
+                data = roll.getRoll();
+                
+                FacultySchedulePanel.this.repaint();
+                FacultySchedulePanel.this.validate();
             }
-        	FacultySchedulePanel.this.repaint();
-    		FacultySchedulePanel.this.validate();
 		}
 	}
 }

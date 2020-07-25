@@ -179,4 +179,18 @@ public class CourseRoll {
 	public int getNumberOnWaitlist() {
 		return waitlist.size();
 	}
+	
+	/**
+	 * Returns the course roll
+	 * @return the course roll
+	 */
+	public String[][] getRoll() {
+	    String [][] studentArray = new String[roll.size()][3];
+	    for(int i = 0; i < roll.size(); i++) {
+	        studentArray[i][0] = roll.get(i).getFirstName();
+	        studentArray[i][1] = roll.get(i).getLastName();
+	        studentArray[i][2] = roll.get(i).getId();
+	    }
+	    return studentArray;
+	}
 }
