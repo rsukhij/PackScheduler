@@ -179,7 +179,7 @@ public class FacultySchedulePanel extends JPanel implements ActionListener {
         });
         
         //Set up CourseRoll table
-        studentRollTableModel = new StudentRollTableModel(selectedCourseRow);
+        studentRollTableModel = new StudentRollTableModel();
         tableRoll = new JTable(studentRollTableModel) {
             private static final long serialVersionUID = 1L;
             
@@ -221,7 +221,7 @@ public class FacultySchedulePanel extends JPanel implements ActionListener {
         scrollSchedule.setBorder(borderSchedule);
         
         //Set up Student Roll table
-        studentRollTableModel = new StudentRollTableModel(selectedCourseRow);
+        studentRollTableModel = new StudentRollTableModel();
         tableRoll = new JTable(studentRollTableModel);
         tableRoll.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         tableRoll.setPreferredScrollableViewportSize(new Dimension(500, 500));
@@ -313,9 +313,13 @@ public class FacultySchedulePanel extends JPanel implements ActionListener {
 				String section = tableSchedule.getValueAt(tableSchedule.getSelectedRow(), 1).toString();
 				Course c = catalog.getCourseFromCatalog(name, section);
 				updateCourseDetails(c);
+				studentRollTableModel.updateData(c);
+				
 			}
 			
 		});
+        
+        
        
     }
 
@@ -369,7 +373,6 @@ public class FacultySchedulePanel extends JPanel implements ActionListener {
      */
     public void updateTables() {
         scheduleTableModel.updateData();
-        studentRollTableModel.updateData(selectedCourseRow);
        
     }
     
@@ -495,8 +498,8 @@ public class FacultySchedulePanel extends JPanel implements ActionListener {
 		 * Constructs the {@link StudentRollTableModel} by requesting the latest information
 		 * from the {@link RequirementTrackerModel}.
 		 */
-		public StudentRollTableModel(int i) {
-			updateData(i);
+		public StudentRollTableModel() {
+
 		}
 
 		/**
@@ -549,10 +552,10 @@ public class FacultySchedulePanel extends JPanel implements ActionListener {
 		/**
 		 * Updates the given model with {@link Student} information from the {@link CourseRoll}.
 		 */
-		public void updateData(int i) {
+		public void updateData(Course c) {
 		    currentUser = (Faculty) RegistrationManager.getInstance().getCurrentUser();
             if(currentUser != null) {
-                roll = currentUser.getSchedule().getCourse(i).getCourseRoll();
+                roll = c.getCourseRoll();
                 data = roll.getRoll();
                 
                 FacultySchedulePanel.this.repaint();
